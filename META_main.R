@@ -112,7 +112,7 @@ gc() # free unused memory
 # N cases: 3891 (EUR)
 # N controls: 443093 (EUR)
 # Regression: Linear Mixed Model
-# Reference: file:///C:/Users/macpa/Downloads/science.adj1182_sm.pdf
+# Reference: https://pubmed.ncbi.nlm.nih.gov/39024449/
 #-------------------------------------------------------------------------------
 #
 # Read summary statistics
@@ -568,3 +568,4 @@ if (!file.exists(munge_path)) {
   format_sumstats(GWAS_META[,c("SNP","CHR","BP","A1","A2","BETA","SE","P","N","Z")],
                   ref_genome="GRCh38",convert_ref_genome="GRCh37",save_path=munge_path)  
 } 
+
