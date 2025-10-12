@@ -2,7 +2,7 @@
 
 ## Abstract
 
-META_GWAS is an R-based pipeline for running a genome-wide association study (GWAS) meta-analysis of chronic fatigue syndrome (CFS) summary statistics. The workflow automates the downloading of five public summary statistics: DecodeME, Million Veteran Project, UK Biobank from the Neale Lab, UK Biobank from the European Bioinformatics Institute, and FinnGen. The files are then brought to a common ground by column renaming, lift-over to GRCh38 and allele flipping (when necessary). The scripts write the five munged summary statistics along with a merged file (GWAS_FULL.tsv.gz), including all the variants that appear at least in one of them, with the annotations (p-value, Beta, OR, N, etc.). The user can set the samples to use for meta-GWAS analysis from a YAML file. In particular, I present here a meta-GWAS of 21,561 cases (European ancestry) built using DecodeME, MVP, and UK Biobank. Given the presence of different regression models across the summary statistics, the sample size-based method was employed to carry out the calculation of weighted Z scores for the variants of the meta-GWAS. 
+META_GWAS is an R-based pipeline for running a genome-wide association study (GWAS) meta-analysis of chronic fatigue syndrome (CFS) summary statistics. The workflow automates the downloading of five public summary statistics: DecodeME, Million Veteran Project, UK Biobank from the Neale Lab, UK Biobank from the European Bioinformatics Institute, and FinnGen. The files are then brought to a common ground by column renaming, lift-over to GRCh38 and allele flipping (when necessary). The pipeline writes the five munged summary statistics along with a merged file (GWAS_FULL.tsv.gz), including all the variants that appear at least in one of them, with the annotations (p-value, Beta, OR, N, etc.). The user can set the samples to use for meta-GWAS analysis from a YAML file. In particular, I present here a meta-GWAS of 21,561 cases (European ancestry) built using DecodeME, MVP, and UK Biobank. Given the presence of different regression models across the summary statistics, the sample size-based method was employed to carry out the calculation of weighted Z scores for the variants of the meta-GWAS. 
 
 ## Methods
 
@@ -22,7 +22,7 @@ Consult the respective project documentation for licensing or data use agreement
 
 ### Munging and Liftover
 
-The pipeline standardises the five summary statistics with [`format_sumstats`](https://github.com/neurogenomics/MungeSumstats), which munges allele columns and **lifts coordinates from GRCh37 to GRCh38**, if necessary. Munged sumstats are saved in `\Munged`. The column labels and their meaning are as follows:
+The pipeline standardises the five summary statistics with [`format_sumstats`](https://github.com/neurogenomics/MungeSumstats), which munges allele columns and lifts coordinates from GRCh37 to GRCh38, if necessary. Munged sumstats are saved in `\Munged`. The column labels and their meaning are as follows:
 
 | Column | Description |
 | :----- | :---------- |
@@ -72,9 +72,23 @@ The five munged sumstats are merged into a file (`\Output\GWAS_FULL.tsv.gz`) wit
 | rs6063371  | 20  | 49202768 | G  | A  | -0.0802805 | 0.0130656 | 8.025461e-10 | 0.405742 | 275488 | 58792    | -6.144417 | -0.045928932 | 0.02369368 | 0.05130 | 0.3984  | 443093 | 15427.33 | -1.9384465 | -1.24475e-04 | 0.000162457 | 0.4435570 | 0.405135  | 361141  | 6605.516   | -0.7662027 | -5.02831e-05 | 0.000137632 | 0.71     | 0.399420   | 484598   | 8331.876    | -0.36534454 | 0.0394094  | 0.0846447 | 0.641512 | 0.458675 | 463312 | 1131.309 | 0.4655862  |
 | rs11697622 | 20  | 49110542 | G  | A  | -0.0801362 | 0.0130626 | 8.527270e-10 | 0.406386 | 275488 | 58792    | -6.134782 | -0.045928932 | 0.02433473 | 0.05989 | 0.3906  | 443093 | 15427.33 | -1.8873818 | -1.51080e-04 | 0.000162202 | 0.3516310 | 0.406264  | 361141  | 6605.516   | -0.9314312 | -5.99007e-05 | 0.000136560 | 0.66     | 0.405742   | 484598   | 8331.876    | -0.43864016 | 0.0257011  | 0.0844750 | 0.760941 | 0.463756 | 463312 | 1131.309 | 0.3042450  |
 
-
-
 Note that the suffix `_DME` stands for DecodeME, `_MVP` indicates Million Veteran Project and so forth. So, for instance, `SE_MPV` indicates the standard error of the regression coefficient from the Million Veteran Project sumstat.
+
+### Meta-analysis
+
+While DecodeME, MVP, and FinnGen rely on logistic regression for trait-variant marginal associations, the two UK Biobank GWASs employed a linear regression model. In a case like this, Inverse Variance Weighted (IVW) meta-analysis is not feasible, since BETAs and SEs from different regression models are not directly comparable. We must rely on zeta scores instead, using a sample-size weighted meta-analysis, as described in ([Willer 2010](https://academic.oup.com/bioinformatics/article/26/17/2190/198154)). Briefly, for each cohort *i*, a weight was assigned proportional to the square root of the effective sample size:
+
+$$
+w_i = \sqrt{N_{eff}^{(i)}}
+$$
+
+with $\ N_{eff}^{(i)}=\frac{4}{\frac{1}{N_{CAS}}+\frac{1}{N_{CON}}} $. The combined Z-score was computed as:
+
+$$
+Z = \frac{\sum_i w_i Z_i}{\sqrt{\sum_i w_i^2}}
+$$
+
+where $\ Z_1 $, $\ Z_2 $, … are the per-cohort Z statistics and $\ w_1 $, $\ w_2 $, … are their corresponding weights. These calculations are repeated for each variant that is present in a least one of the selected summary statistics. Next, 
 
 
 - `META_main.R` – orchestrates package installation, summary statistic munging, and harmonisation steps for each cohort.
