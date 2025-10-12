@@ -1,0 +1,14 @@
+filters:
+  p_value_common: 5e-08
+  p_value_uncommon: 1e-08
+  hwe_p_value: 1e-06
+  maf_common: 0.05
+  maf_uncommon: 0.01
+  info_cutoff: 0.9
+
+samples: 
+  DME: 1    # DecodeME (15579 EUR cases)
+  MVP: 1    # Million Veteran Project (3891 EUR cases)
+  UKBNL: 0  # UK Biobank by Neale Lab (1659 EUR cases)
+  UKBEIB: 1 # UK Biobank by European Bioinformatics Institute (2092 EUR cases) 
+  FG: 0     # FinnGen (283 FIN cases)
