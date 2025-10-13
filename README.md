@@ -122,6 +122,16 @@ for i=1, 2,..., N, where N is the total number of genes included in the analysis
 
 ## Results
 
+### Summary statistics
+
+The results of the meta-analysis described in this repository are collected in a HuggingFace repository and can be downloaded from the links below. 
+
+| Name | Description| Reference | Download |
+|:-----|:------------|:---------|:---------|
+|GWAS_FULL.tsv.gz| All the variants and the annotations from the five GWASs used as input | GRCh38 | ([LINK](https://huggingface.co/datasets/PaoloMaccallini/MetaME/blob/main/GWAS_FULL.tsv.gz)) |
+|GWAS_META_DME_MVP_UKBEIB_GRCh37.tsv.gz| Meta-GWAS from DecodeME, MVP, UKBiobank (European Institute of Bioinformatics) | GRCh37 | ([LINK](https://huggingface.co/datasets/PaoloMaccallini/MetaME/blob/main/GWAS_META_DME_MVP_UKBEIB_GRCh37.tsv.gz)) |
+|GWAS_META_DME_MVP_UKBEIB_GRCh38.tsv.gz| Meta-GWAS from DecodeME, MVP, UKBiobank (European Institute of Bioinformatics) | GRCh38 | ([LINK](https://huggingface.co/datasets/PaoloMaccallini/MetaME/blob/main/GWAS_META_DME_MVP_UKBEIB_GRCh38.tsv.gz)) |
+
 ### Risk loci and candidate genes
 
 The SNP2GENE module of FUMA identifies six risk loci, reported below. You can explore and download the results of the analysis of FUMA on my meta-GWAS at this link: [meta-GWAS analysis](https://fuma.ctglab.nl/snp2gene/666819).
