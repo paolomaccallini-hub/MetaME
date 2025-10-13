@@ -2,7 +2,7 @@
 
 ## Abstract
 
-META_GWAS is an R-based pipeline for running a genome-wide association study (GWAS) meta-analysis of chronic fatigue syndrome (CFS) summary statistics. The workflow automates the downloading of five public summary statistics: DecodeME, Million Veteran Project, UK Biobank from the Neale Lab, UK Biobank from the European Bioinformatics Institute, and FinnGen. The files are then brought to a common ground by column renaming, lift-over to GRCh38 and allele flipping (when necessary). The pipeline writes the five munged summary statistics along with a merged file (GWAS_FULL.tsv.gz), including all the variants that appear at least in one of them, with the annotations (p-value, Beta, OR, N, etc.). Next, a meta-GWAS can be built from a subset of these five GWASs, specified by the user in a YAML file. In particular, I present here a meta-GWAS of 21,561 cases (European ancestry) built using DecodeME, MVP, and UK Biobank. Given the presence of different regression models across the summary statistics, the sample size-based method was employed to carry out the calculation of weighted Z scores for the variants of the meta-GWAS. The summary statistics are generated with respect to both GRCh38 and GRCh37. The latter was input to FUMA using the UK Biobank as the reference population to select candidate genes and perform tissue-level and cell-type analysis by FUMA's proprietary regression. Post-GWAS analysis revealed six risk loci, mapped to 41 candidate genes. Tissue-level regression associates ME/CFS with several brain regions, spanning the cerebellum, basal ganglia, and frontal cortex. The main results of FUMA output are reported here, and the reader can explore and download the complete output at this link: [meta-GWAS analysis](https://fuma.ctglab.nl/snp2gene/666819). Fine-mapping of the meta-GWAS by a custom pipeline is undergoing and will be added to this repository. To date, this represents the biggest GWAS ever performed on ME/CFS patients.
+META_GWAS is an R-based pipeline for running a genome-wide association study (GWAS) meta-analysis of chronic fatigue syndrome (CFS) summary statistics. The workflow automates the downloading of five public summary statistics: DecodeME, Million Veteran Project, UK Biobank from the Neale Lab, UK Biobank from the European Bioinformatics Institute, and FinnGen. The files are then brought to a common ground by column renaming, lift-over to GRCh38 and allele flipping (when necessary). The pipeline writes the five munged summary statistics along with a merged file (GWAS_FULL.tsv.gz), including all the variants that appear at least in one of them, with the annotations (p-value, Beta, OR, N, etc.). Next, a meta-GWAS can be built from a subset of these five GWASs, specified by the user in a YAML file. In particular, I present here a meta-GWAS of 21,561 cases (European ancestry) built using DecodeME, MVP, and UK Biobank. Given the presence of different regression models across the summary statistics, the sample size-based method was employed to carry out the calculation of weighted Z scores for the variants of the meta-GWAS. The summary statistics are generated with respect to both GRCh38 and GRCh37. The latter was input to FUMA using the UK Biobank as the reference population to select candidate genes and perform tissue-level and cell-type analysis by FUMA's proprietary regression. Post-GWAS analysis revealed six risk loci, mapped to 41 candidate genes. Tissue-level regression associates ME/CFS with several brain regions, spanning the cerebellum, basal ganglia, and frontal cortex. Cell-type analysis reveals a significant regression between the genetic profile of the meta-GWAS (as defined by FUMA pipeline) and gene-expression in human neurons of the hippocampus, the Globus Pallidus, and the Amygdala. The regression with hippocampal neurons is confirmed in mouse brain. The main results of FUMA output are reported here, and the reader can explore and download the complete output at this link: [meta-GWAS analysis](https://fuma.ctglab.nl/snp2gene/666819). Fine-mapping of the meta-GWAS by a custom pipeline is undergoing and will be added to this repository. To date, this represents the biggest GWAS ever performed on ME/CFS patients.
 
 ## Methods
 
@@ -62,7 +62,21 @@ The five munged sumstats are merged into a file (`\Output\GWAS_FULL.tsv.gz`) wit
 | rs6125576  | 20  | 49160382 | A  | T  | -0.0806653 | 0.0130677 | 6.706872e-10 | 0.405720 | 275488 | 58792    | -6.172877 | -0.044016885 | 0.02391808 | 0.06681 | 0.3981  | 443093 | 15427.33 | -1.8403185 | -1.55553e-04 | 0.000162327 | 0.3379280 | 0.405388  | 361141  | 6605.516   | -0.9582694 | -7.53679e-05 | 0.000137508 | 0.58     | 0.399673   | 484598   | 8331.876    | -0.54809829 | 0.0189497  | 0.0844585 | 0.822472 | 0.463746 | 463312 | 1131.309 | 0.2243670  |
 | rs4810909  | 20  | 49004835 | G  | A  | 0.0804680  | 0.0130685 | 7.393669e-10 | 0.594451 | 275488 | 58792    | 6.157401  | 0.038325114  | 0.02455894 | 0.11740 | 0.5898  | 443093 | 15427.33 | 1.5605363  | 1.26297e-04  | 0.000162224 | 0.4362540 | 0.404779  | 361141  | 6605.516   | 0.7785346  | 5.19962e-05  | 0.000137419 | 0.70     | 0.601067   | 484598   | 8331.876    | 0.37837708  | -0.0197586 | 0.0854544 | 0.815020 | 0.536524 | 463312 | 1131.309 | -0.2339558 |
 
-Note that the suffix `_DME` stands for DecodeME, `_MVP` indicates Million Veteran Project and so forth. So, for instance, `SE_MPV` indicates the standard error of the regression coefficient from the Million Veteran Project sumstat.
+Note that the suffix `_DME` stands for DecodeME, `_MVP` indicates Million Veteran Project and so forth. So, for instance, `SE_MPV` indicates the standard error of the regression coefficient from the Million Veteran Project sumstat. The pipeline write a table with the number of vairants that are shared by the five summary statistics in a pair-wise comparison (table below). It also builds a regression table for the zeta scores of a random sample of 1 million variants (Figure 1).
+
+|       | DME | MVP | UKBNL | UKBEIB | FG |
+|-------|------|------|--------|---------|--------|
+| **DME** | 4,412,709 | 4,167,666 | 4,065,502 | 4,080,741 | 3,837,228 |
+| **MVP** | 4,167,666 | 4,561,580 | 4,148,745 | 4,214,608 | 3,917,662 |
+| **UKBNL** | 4,065,502 | 4,148,745 | 4,265,191 | 4,244,550 | 3,768,635 |
+| **UKBEIB** | 4,080,741 | 4,214,608 | 4,244,550 | 4,356,852 | 3,815,038 |
+| **FG** | 3,837,228 | 3,917,662 | 3,768,635 | 3,815,038 | 4,611,615 |
+
+<p align="center">
+  <img width="400" height="400" alt="Z-score correlations" src="https://github.com/user-attachments/assets/11159551-4de2-4fc5-911c-39b3700d4844" />
+</p>
+
+<p align="center"><em>Figure 1. Correlation between Z-scores from one million randomly selected variants across the five summary statistics.</em></p>
 
 ### Meta-analysis
 
@@ -177,25 +191,42 @@ MAGMA-proprietary gene-set analysis identifies the Gene Ontology (cellular-compo
 
 ### Tissue analysis
 
-MAGMA-proprietary tissue analysis, based on a linear regression between zeta scores assigned to all the human genes from the GWAS analysis and tissue-specific gene-expression profiles, highlights several significant brain associations, spanning the basal ganglia, the cerebellum, and the cortex (Figure 1).
+MAGMA-proprietary tissue analysis, based on a linear regression between zeta scores assigned to all the human genes from the GWAS analysis and tissue-specific gene-expression profiles, highlights several significant brain associations, spanning the basal ganglia, the cerebellum, and the cortex (Figure 2).
 
 <figure align="center">
   <img width="1074" height="565" alt="MAGMA tissue analysis" src="https://github.com/user-attachments/assets/f6ebff7c-f3ec-4ddd-8e9d-212ac7dd6139">
-  <figcaption><em>Figure 1. MAGMA tissue analysis showing significant associations across basal ganglia, cerebellum, and cortex.</em></figcaption>
+  <figcaption><em>Figure 2. MAGMA tissue analysis showing significant associations across basal ganglia, cerebellum, and cortex.</em></figcaption>
 </figure>
 
 ### Cell-type analysis
 
+The results of FUMA cell-type analysis on the human and mouse brain are reported in the following table and in Figure 3. The genetic profile from the meta-GWAS regresses significantly with the gene-expression profile of human neurons from the external segment of the Globus pallidus, with the central nucleus of the Amygdala, with rostral CA3 of proper Hippocampus, in human brain. The regression with neurons of the hippocampus is confirmed in mouse brain (HC neurons). These results and the references to the original RNA-seq studies and to interactive brain atlases are collected in the following table.
 
+| Dataset | Region | Level | Full Name | Species | Paper | Reference Atlas |
+|:--------|:-------|:-----:|:---------|:--------|:-------|:-----------|
+| Siletti  | GPe    | 1     | Globus_Pallidus_External_Segment| Human | ([Siletti 2023](https://pubmed.ncbi.nlm.nih.gov/37824663/)) | ([Allen Human Brain Atlas](https://atlas.brain-map.org/atlas?atlas=265297125#atlas=265297125&plate=112360888&structure=9001&x=40320&y=46978.1328125&zoom=-7&resolution=124.49&z=3) |
+| Siletti  | CeN    | 1     | Amygdala_Central_Nucleus | Human | ([Siletti 2023](https://pubmed.ncbi.nlm.nih.gov/37824663/)) | ([Allen Brain Atlas](https://atlas.brain-map.org/atlas?atlas=265297125#atlas=265297125&plate=112360888&structure=9001&x=40320&y=46978.1328125&zoom=-7&resolution=124.49&z=3) |
+| Siletti | CA3 | 1 | Hippocampus_Proper_Rostral_CA3 | Human | ([Siletti 2023](https://pubmed.ncbi.nlm.nih.gov/37824663/)) | ([Allen Brain Atlas](https://atlas.brain-map.org/atlas?atlas=265297125#atlas=265297125&plate=112360888&structure=9001&x=40320&y=46978.1328125&zoom=-7&resolution=124.49&z=3) |
+| DropViz | HC | 1 | Hippocampus | Mouse | ([Saunders 2019](https://pubmed.ncbi.nlm.nih.gov/30096299/)) | ([DrpViz Atlas](http://dropviz.org/)) |
 
-## Repository components
+<figure align="center">
+  <img width="1074" height="565" alt="MAGMA cell type analysis analysis" src=![Immagine 2025-10-13 173100](https://github.com/user-attachments/assets/24125377-d937-4394-864f-20e1b0d3a185)">
+  <figcaption><em>Figure 3. MAGMA cell-type analysis showing significant associations with human neurons from the external segment of globus pallidus (GPe), the Central Nucleus of Amygdala (CeN), rostral CA3 of Proper Hippocampus (Hibb.CA3), and hippocampus from mouse (HC Neuron). The matrix shows no complete collinearity betwwen the significant regressions. For an explication of how to read the matrix generated by the third step, please visit [this resource](https://fuma.ctglab.nl/tutorial#workflow). As an introduction, consider that stars indicate the collinear covariates of the regression model discussed above, while the element of row i and column j indicates the proportional significance (PS) of cell type j conditioning on cell type i.</em></figcaption>
+</figure>
+
+## About the pipeline
+
+### Repository components
 
 - `META_main.R` – orchestrates package installation, summary statistic munging, and harmonisation steps for each cohort.
 - `META_func.R` – helper functions that download input datasets, build the project directory structure, and load configuration values.
 - `META_config.yml` – user-editable configuration file for p-value, minor allele frequency, and imputation quality cut-offs as well as cohort selection flags.
+- `Output\GWAS_FULL.tsv.gz` - it has a row for each variant that appears in at least one of the five summary statistics used as input, with all the annotations.
+- `Output\GWAS_META_DME_MVP_UKBEIB_GRCh37.tsv.gz` - GRCh37 summary statistics of the meta-GWAS obtained from DecodeME, Million Veteran Project, and UKBiobanl (European Institute of Bioinformatics)
+- `Output\GWAS_META_DME_MVP_UKBEIB_GRCh37.tsv.gz` - GRCh38 summary statistics of the meta-GWAS obtained from DecodeME, Million Veteran Project, and UKBiobanl (European Institute of Bioinformatics)
 - `LICENSE` – licensing information for the project.
 
-## Requirements
+### Requirements
 
 - R (≥ 4.0 recommended)
 - Access to Bioconductor and CRAN to install dependencies
@@ -208,7 +239,7 @@ The main script installs the required packages automatically, including:
 
 You may prefer to install these ahead of time to avoid repeated installations when running the pipeline on a cluster.
 
-## Configuration
+### Configuration
 
 Edit `META_config.yml` to control filtering thresholds and which cohorts to include. The file exposes:
 
@@ -217,7 +248,7 @@ Edit `META_config.yml` to control filtering thresholds and which cohorts to incl
 
 Update these values before launching the analysis to ensure only the desired datasets are downloaded and processed.
 
-## Running the pipeline
+### Running the pipeline
 
 1. Open an R session in the repository root (or ensure the working directory is set to the project).
 2. Run the main script:
@@ -229,13 +260,13 @@ Update these values before launching the analysis to ensure only the desired dat
 
 Depending on connectivity and download sizes, the first execution can take a while. Temporary outputs and downloaded data are preserved for reuse.
 
-## Outputs
+### Outputs
 
 - Harmonised summary statistics per cohort saved in the `Munged/` directory (e.g., `Munged/DME_GRCh38.tsv.gz`).
 - Downloaded raw summary statistics and metadata stored beneath `Data/` in cohort-specific subdirectories.
 
 These munged files are intended for subsequent meta-analysis steps, which are not included in this repository.
 
-## License
+### License
 
 This project is released under the terms described in the included `LICENSE` file.
