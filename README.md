@@ -1,4 +1,4 @@
-# Meta-analysis of three GWAS summary statistics including 21,500 ME/CFS cases and one million controls of European ancestry
+# Meta-analysis of three GWAS summary statistics including 21,500 ME/CFS cases
 
 ## Abstract
 
