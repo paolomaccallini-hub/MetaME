@@ -252,11 +252,13 @@ Update these values before launching the analysis to ensure only the desired dat
 
 1. Open an R session in the repository root (or ensure the working directory is set to the project).
 2. Run the main script:
+   
    ```r
    Rscript META_main.R
    ```
-3. The script creates required directories (`Data/`, `Munged/`) and downloads each cohort selected in `META_config.yml`.
-4. Summary statistics are munged via `MungeSumstats` into harmonised `TSV.GZ` files stored under `Munged/`.
+   
+4. The script creates required directories (`Data/`, `Munged/`) and downloads each cohort selected in `META_config.yml`.
+5. Summary statistics are munged via `MungeSumstats` into harmonised `TSV.GZ` files stored under `Munged/`.
 
 Depending on connectivity and download sizes, the first execution can take a while. Temporary outputs and downloaded data are preserved for reuse.
 
@@ -264,6 +266,7 @@ Depending on connectivity and download sizes, the first execution can take a whi
 
 - Harmonised summary statistics per cohort saved in the `Munged/` directory (e.g., `Munged/DME_GRCh38.tsv.gz`).
 - Downloaded raw summary statistics and metadata stored beneath `Data/` in cohort-specific subdirectories.
+- Meta-GWAS summary statistics in both GrCh37 and GRCh38 stored beneath `Output/`.
 
 These munged files are intended for subsequent meta-analysis steps, which are not included in this repository.
 
