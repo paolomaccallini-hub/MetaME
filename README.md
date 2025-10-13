@@ -1,4 +1,4 @@
-# META_GWAS
+# MetaME: GWAS on 21,561 ME/CFS cases from meta-analysis on DecodeME, MVP, and UK Biobank
 
 ## Abstract
 
