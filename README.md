@@ -12,11 +12,11 @@ MetaME is an R-based pipeline for running a genome-wide association study (GWAS)
 
 | Database                 | Symbol     | cases       | controls    | Trait            | Regression  | Ancestry  | Assembly  | Reference     | Summary Statistics | 
 | :----------------------- | :--------- | :---------- | :---------- | :--------------- | :---------- | :-------- | :-------- | :------------ | :----------------- |
-| **DecodeME** | DME | 15579 | 259909 |CFS (CCC/IOM)  | Logistic | EUR | GRCh38 | ([Preprint_2025](https://www.research.ed.ac.uk/en/publications/initial-findings-from-the-decodeme-genome-wide-association-study-)) | ([GWAS-1](https://osf.io/rgqs3/files/osfstorage))
+| **DecodeME** | DME | 15579 | 259909 |CFS (CCC/IOM)  | Logistic | EUR | GRCh38 | ([Preprint_2025](https://www.research.ed.ac.uk/en/publications/initial-findings-from-the-decodeme-genome-wide-association-study-)) | ([GWAS-1](https://osf.io/rgqs3/files))
 | **MillionVeteranProject** | MVP | 3891 | 443093 | PheCode_798.1_CFS | Logistic | EUR | GRCh38 | ([Verma_2024](https://pubmed.ncbi.nlm.nih.gov/39024449/)) | ([GCST90479178](https://ftp.ebi.ac.uk/pub/databases/gwas/summary_statistics/GCST90479001-GCST90480000/GCST90479178/)) |
 | **UKBiobank (NealeLab)** | UKBNL | 1659 | 359482 | self_reported CFS | Linear | EUR | GRCh37 | ([NealeLab](https://www.nealelab.is/uk-biobank)) | ([20002_1482](https://docs.google.com/spreadsheets/d/1kvPoupSzsSFBNSztMzl04xMoSC3Kcx3CrjVf4yBmESU/edit?gid=178908679#gid=178908679))
 | **UKBiobank (EIB)**      | UKBEIB| 2092 | 482506 | self_reported CFS | Linear | EUR | GRCh37 | ([Dönertaş_2021](https://europepmc.org/article/MED/33959723)) | ([GCST90038694](https://ftp.ebi.ac.uk/pub/databases/gwas/summary_statistics/GCST90038001-GCST90039000/GCST90038694)) |
-| **FinnGen** | FG | 283 | 663029 | Post-viral fatigue | Logistic | FIN | GRCh38 | ([Kurki_2023](https://pubmed.ncbi.nlm.nih.gov/36653562/)) | ([R12_G6_POSTVIRFAT](https://storage.googleapis.com/finngen-public-data-r12/summary_stats/release/)) |
+| **FinnGen** | FG | 283 | 663029 | Post-viral fatigue | Logistic | FIN | GRCh38 | ([Kurki_2023](https://pubmed.ncbi.nlm.nih.gov/36653562/)) | ([R12_G6_POSTVIRFAT](https://www.finngen.fi/en/researchers/accessing)) |
 
 Consult the respective project documentation for licensing or data use agreements that may apply to the downloaded data.
 
