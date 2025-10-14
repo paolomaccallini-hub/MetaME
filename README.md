@@ -39,7 +39,7 @@ The pipeline standardises the five summary statistics using the R package MungeS
 | **N_CAS** | number of cases |
 | **N_CON** | number of controls |
 
-Each sumstat can have additional columns (like **OR**, for logistic regression, or **LOG10P**). As an example, here you can see the rows of the munged sumstat of DecodeMe (`\Munged\DME_GRCh38.tsv.gz`) that contain the 5 most significant variants:
+Each sumstat can have additional columns (like OR, for logistic regression, or LOG10P). As an example, here you can see the rows of the munged sumstat of DecodeMe (`\Munged\DME_GRCh38.tsv.gz`) that contain the 5 most significant variants:
 
 | SNP | CHR | BP | A1 | A2 | VARIANT_ID | FRQ | N | N_CAS | N_CON | BETA | SE | LOG10P | P | Z |
 |----|-----|----|----|----|-------------|-----|------|--------|--------|--------|--------|--------|------------|-----------|
@@ -62,7 +62,7 @@ The five munged sumstats are merged into a file (`\Output\GWAS_FULL.tsv.gz`) wit
 | rs6125576  | 20  | 49160382 | A  | T  | -0.0806653 | 0.0130677 | 6.706872e-10 | 0.405720 | 275488 | 58792    | -6.172877 | -0.044016885 | 0.02391808 | 0.06681 | 0.3981  | 443093 | 15427.33 | -1.8403185 | -1.55553e-04 | 0.000162327 | 0.3379280 | 0.405388  | 361141  | 6605.516   | -0.9582694 | -7.53679e-05 | 0.000137508 | 0.58     | 0.399673   | 484598   | 8331.876    | -0.54809829 | 0.0189497  | 0.0844585 | 0.822472 | 0.463746 | 463312 | 1131.309 | 0.2243670  |
 | rs4810909  | 20  | 49004835 | G  | A  | 0.0804680  | 0.0130685 | 7.393669e-10 | 0.594451 | 275488 | 58792    | 6.157401  | 0.038325114  | 0.02455894 | 0.11740 | 0.5898  | 443093 | 15427.33 | 1.5605363  | 1.26297e-04  | 0.000162224 | 0.4362540 | 0.404779  | 361141  | 6605.516   | 0.7785346  | 5.19962e-05  | 0.000137419 | 0.70     | 0.601067   | 484598   | 8331.876    | 0.37837708  | -0.0197586 | 0.0854544 | 0.815020 | 0.536524 | 463312 | 1131.309 | -0.2339558 |
 
-Note that the suffix `_DME` stands for DecodeME, `_MVP` indicates Million Veteran Project and so forth. So, for instance, `SE_MPV` indicates the standard error of the regression coefficient from the Million Veteran Project sumstat. The pipeline write a table with the number of vairants that are shared by the five summary statistics in a pair-wise comparison (table below). It also builds a regression table for the zeta scores of a random sample of 1 million variants (Figure 1).
+Note that the suffix `_DME` stands for DecodeME, `_MVP` indicates Million Veteran Project and so forth. So, for instance, `SE_MPV` indicates the standard error of the regression coefficient from the Million Veteran Project sumstat. The pipeline writes a table with the number of variants that are shared by the five summary statistics in a pair-wise comparison (table below). It also builds a regression table for the zeta scores of a random sample of 1 million variants (Figure 1).
 
 |       | DME | MVP | UKBNL | UKBEIB | FG |
 |-------|------|------|--------|---------|--------|
