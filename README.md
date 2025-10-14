@@ -217,7 +217,7 @@ The results of FUMA cell-type analysis on the human and mouse brain are reported
 | Siletti  | GPe    | 1     | Globus_Pallidus_External_Segment| Human | ([Siletti_2023](https://pubmed.ncbi.nlm.nih.gov/37824663/)) | ([Allen_Brain_Atlas](https://atlas.brain-map.org/atlas?atlas=265297125#atlas=265297125&plate=112360888&structure=9001&x=40320&y=46978.1328125&zoom=-7&resolution=124.49&z=3)) |
 | Siletti  | CeN    | 1     | Amygdala_Central_Nucleus | Human | ([Siletti_2023](https://pubmed.ncbi.nlm.nih.gov/37824663/)) | ([Allen_Brain_Atlas](https://atlas.brain-map.org/atlas?atlas=265297125#atlas=265297125&plate=112360888&structure=9001&x=40320&y=46978.1328125&zoom=-7&resolution=124.49&z=3)) |
 | Siletti | CA3 | 1 | Hippocampus_Proper_Rostral_CA3 | Human | ([Siletti_2023](https://pubmed.ncbi.nlm.nih.gov/37824663/)) | ([Allen_Brain_Atlas](https://atlas.brain-map.org/atlas?atlas=265297125#atlas=265297125&plate=112360888&structure=9001&x=40320&y=46978.1328125&zoom=-7&resolution=124.49&z=3)) |
-| DropViz | HC | 1 | Hippocampus | Mouse | ([Saunders_2019](https://pubmed.ncbi.nlm.nih.gov/30096299/)) | ([DrpViz_Atlas](http://dropviz.org/)) |
+| DropViz | HC | 1 | Hippocampus | Mouse | ([Saunders_2019](https://pubmed.ncbi.nlm.nih.gov/30096299/)) | ([DropViz_Atlas](http://dropviz.org/)) |
 
 <figure align="center">
   <img width="1074" height="565" alt="MAGMA cell type analysis analysis" src="https://github.com/user-attachments/assets/24125377-d937-4394-864f-20e1b0d3a185">
