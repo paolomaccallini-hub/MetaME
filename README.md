@@ -86,7 +86,7 @@ $$
 w_i = \sqrt{N_{eff}^{(i)}}
 $$
 
-with $\ N_{eff}^{(i)}=\frac{4}{\frac{1}{N_{CAS}^{(i)}+\frac{1}{N_{CON}^{(i)}}} $. The combined Z-score was computed as:
+with $\ N_{eff}^{(i)}=\frac{4}{\frac{1}{ N_{CAS}^{(i)}+\frac{1}{N_{CON}^{(i)}}} $. The combined Z-score was computed as:
 
 $$
 Z = \frac{\sum_i w_i Z_i}{\sqrt{\sum_i w_i^2}}
