@@ -95,7 +95,7 @@ $$
 where $\ Z_1 $, $\ Z_2 $, … are the per-cohort Z statistics and $\ w_1 $, $\ w_2 $, … are their corresponding weights. These calculations are repeated for each variant that is present in at least one of the selected summary statistics. Next, the p-value for each variant of the meta-GWAS was calculated:
 
 $$
-P=2\Phi(|Z|)
+P=2\Phi(-|Z|)
 $$
 
 To calculate the regression coefficients, I estimated the standard error as 
