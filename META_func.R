@@ -264,7 +264,7 @@ if(!file.exists(file_path)) {
 gc() # free unused memory
 #
 #-------------------------------------------------------------------------------
-# Build database for UK FinnGen 
+# Build database for FinnGen 
 #-------------------------------------------------------------------------------
 #
 current_dir<-getwd()
@@ -317,4 +317,5 @@ Correlations<-function(mydata,data.select,folder_path,n.cex,alpha) {
   dev.off()    
   #
 }
+
 
