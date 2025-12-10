@@ -12,3 +12,6 @@ samples:
   UKBNL: 0  # UK Biobank by Neale Lab (1659 EUR cases)
   UKBEIB: 1 # UK Biobank by European Bioinformatics Institute (2092 EUR cases) 
   FG: 0     # FinnGen (283 FIN cases)
+
+METAL: 
+  path_metal_exe: "/mnt/c/yourpath/metal" # we use metal in WSL2
