@@ -14,7 +14,7 @@ REMOVEFILTERS
 PROCESS /mnt/c/Users/macpa/OneDrive/Appunti/Genetics/MetaGWAS/Munged/DME_GRCh38.tsv
 PROCESS /mnt/c/Users/macpa/OneDrive/Appunti/Genetics/MetaGWAS/Munged/MVP_GRCh38.tsv
 PROCESS /mnt/c/Users/macpa/OneDrive/Appunti/Genetics/MetaGWAS/Munged/UKBEIB_GRCh38.tsv
-PROCESS /mnt/c/Users/macpa/OneDrive/Appunti/Genetics/MetaGWAS/Munged/FG_GRCh38.tsv
 OUTFILE /mnt/c/Users/macpa/OneDrive/Appunti/Genetics/MetaGWAS/Output/GWAS_METAL_DME_MVP_UKBEIB_FG_GRCh38_ .tbl
 ANALYZE
 QUIT
+
