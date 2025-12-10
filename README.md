@@ -8,16 +8,6 @@ The main results of FUMA output are reported here, and the reader can explore an
 
 ## Methods
 
-### Repository components
-
-- `META_main_2.R` – orchestrates package installation, summary statistic munging, and harmonisation steps for each cohort.
-- `META_func.R` – helper functions that download input datasets, build the project directory structure, and load configuration values.
-- `META_config.yml` – user-editable configuration file for p-value, minor allele frequency, and imputation quality cut-offs as well as cohort selection flags.
-- `Output\GWAS_FULL.tsv.gz` - it has a row for each variant that appears in at least one of the five summary statistics used as input, with all the annotations.
-- `Output\GWAS_METAL_DME_MVP_UKBEIB_GRCh37.tsv.gz` - GRCh37 summary statistics of the meta-GWAS obtained from DecodeME, Million Veteran Project, and UKBiobank (European Institute of Bioinformatics)
-- `Output\GWAS_METAL_DME_MVP_UKBEIB_GRCh37.tsv.gz` - GRCh38 summary statistics of the meta-GWAS obtained from DecodeME, Million Veteran Project, and UKBiobank (European Institute of Bioinformatics)
-- `LICENSE` – licensing information for the project.
-
 ### Data sources
 
 `META_main.R` retrieves and saves in the `\Data` folder the following five summary statistics.
@@ -174,9 +164,6 @@ MAGMA-proprietary tissue analysis, based on a linear regression between zeta sco
 - `META_main_2.R` – orchestrates package installation, summary statistic munging, and harmonisation steps for each cohort.
 - `META_func.R` – helper functions that download input datasets, build the project directory structure, and load configuration values.
 - `META_config.yml` – user-editable configuration file for p-value, minor allele frequency, and imputation quality cut-offs as well as cohort selection flags.
-- `Output\GWAS_FULL.tsv.gz` - it has a row for each variant that appears in at least one of the five summary statistics used as input, with all the annotations.
-- `Output\GWAS_METAL_DME_MVP_UKBEIB_GRCh37.tsv.gz` - GRCh37 summary statistics of the meta-GWAS obtained from DecodeME, Million Veteran Project, and UKBiobank (European Institute of Bioinformatics)
-- `Output\GWAS_METAL_DME_MVP_UKBEIB_GRCh37.tsv.gz` - GRCh38 summary statistics of the meta-GWAS obtained from DecodeME, Million Veteran Project, and UKBiobank (European Institute of Bioinformatics)
 - `LICENSE` – licensing information for the project.
 
 ### Requirements
