@@ -2,7 +2,7 @@
 #
 #-------------------------------------------------------------------------------
 # This script performs GWAS meta analysis for CFS using DecodeME (15579 EUR), 
-# MVP (3891 EUR), UK Biobank NealeLab(1659 EUR), UK Bioban EIB (), Finngen (283 FIN)
+# MVP (3891 EUR), UK Biobank NealeLab(1659 EUR), UK Biobank EIB (), Finngen (283 FIN)
 #-------------------------------------------------------------------------------
 #
 install.packages('BiocManager')
@@ -83,7 +83,10 @@ for (j in 1:ncol(mydata)) {
 munge_path<-"Munged/DME_GRCh38.tsv.gz"
 #
 if (!file.exists(munge_path)) {
-  format_sumstats(mydata,ref_genome="GRCh38",compute_z="BETA",save_path=munge_path)  
+  format_sumstats(mydata,ref_genome="GRCh38",
+                  compute_z="BETA",
+                  bi_allelic_filter=F,
+                  save_path=munge_path)  
 } 
 #
 # Check for errors
@@ -163,7 +166,11 @@ for (j in 1:ncol(mydata)) {
 munge_path<-"Munged/MVP_GRCh38.tsv.gz"
 #
 if (!file.exists(munge_path)) {
-  format_sumstats(mydata,ref_genome="GRCh38",compute_z="BETA",save_path=munge_path)  
+  format_sumstats(mydata,ref_genome="GRCh38",
+                  compute_z="BETA",
+                  bi_allelic_filter=F,
+                  flip_frq_as_biallelic=T,
+                  save_path=munge_path)  
 }
 #
 # Check for errors
@@ -260,7 +267,12 @@ mydata$N_controls<-rep(N_controls,nrow(mydata))
 munge_path<-"Munged/UKBNL_GRCh38.tsv.gz"
 #
 if (!file.exists(munge_path)) {
-  format_sumstats(mydata,ref_genome="GRCh37",convert_ref_genome="GRCh38",compute_z="BETA",save_path=munge_path)  
+  format_sumstats(mydata,ref_genome="GRCh37",
+                  convert_ref_genome="GRCh38",
+                  compute_z="BETA",
+                  bi_allelic_filter=F,
+                  flip_frq_as_biallelic=T,
+                  save_path=munge_path)  
 } 
 #
 # Check for errors
@@ -331,7 +343,12 @@ mydata$N_controls<-rep(482506,nrow(mydata))
 munge_path<-"Munged/UKBEIB_GRCh38.tsv.gz"
 #
 if (!file.exists(munge_path)) {
-  format_sumstats(mydata,ref_genome="GRCh37",convert_ref_genome="GRCh38",compute_z="BETA",save_path=munge_path)  
+  format_sumstats(mydata,ref_genome="GRCh37",
+                  convert_ref_genome="GRCh38",
+                  compute_z="BETA",
+                  bi_allelic_filter=F,
+                  flip_frq_as_biallelic=T,
+                  save_path=munge_path)  
 } 
 #
 # Check for errors
@@ -408,7 +425,11 @@ mydata$N_controls<-rep(463029,nrow(mydata))
 munge_path<-"Munged/FG_GRCh38.tsv.gz"
 #
 if (!file.exists(munge_path)) {
-  format_sumstats(mydata,ref_genome="GRCh38",compute_z="BETA",save_path=munge_path)  
+  format_sumstats(mydata,ref_genome="GRCh38",
+                  compute_z="BETA",
+                  bi_allelic_filter=F,
+                  flip_frq_as_biallelic=T,
+                  save_path=munge_path)  
 } 
 #
 # Check for errors
@@ -432,140 +453,297 @@ remove(mydata,mymunged)
 gc() # free unused memory
 #
 #-------------------------------------------------------------------------------
-# Read munged summary statistics and collect all data in a single file
+# Meta GWAS with METAL
 #-------------------------------------------------------------------------------
 #
-current_dir<-getwd()
-folder_path<-file.path(current_dir,"Output")  
-if(!dir.exists(folder_path)) {
-  dir.create(folder_path) 
+# Generate the script for METAL
+#
+lines<-c() # it contains the instruction for METAL
+h<-0
+#
+# Input description and analysis description
+#
+h<-h+1
+lines[h]<-"SEPARATOR TAB"
+h<-h+1
+lines[h]<-"MARKERLABEL SNP"
+h<-h+1
+lines[h]<-"ALLELELABELS A1 A2"
+h<-h+1
+lines[h]<-"PVALUELABEL P"
+h<-h+1
+lines[h]<-"EFFECTLABEL BETA"
+h<-h+1
+lines[h]<-"STDERRLABEL SE"
+h<-h+1
+lines[h]<-"FREQLABEL FRQ"
+h<-h+1
+lines[h]<-"WEIGHTLABEL Neff" # we use the effective size 
+h<-h+1
+lines[h]<-"SCHEME SAMPLESIZE" # use weighted zeta scores
+h<-h+1
+lines[h]<-"OVERLAP ON" # correct for samples overlap 
+h<-h+1
+lines[h]<-"VERBOSE OFF"
+h<-h+1
+lines[h]<-"AVERAGEFREQ ON"
+h<-h+1
+lines[h]<-"REMOVEFILTERS" # I want all the available SNPs!
+#
+# Input files
+#
+for (i in 1:length(populations)) {
+  file_name<-paste0(current_dir,"/Munged/",populations[i],"_GRCh38.tsv")
+  file_name<-sub("C:","/mnt/c",file_name)
+  h<-h+1
+  lines[h]<-paste("PROCESS",file_name)
 }
 #
-GWAS_names<-names(samples)
-GWAS_list<-list()
-for (i in 1:length(GWAS_names)) {
-  file_name<-paste0("Munged/",GWAS_names[i],"_GRCh38.tsv.gz")
-  GWAS_list[[i]]<-fread(file_name)
-  #
-  # Calculate Neff
-  #
-  GWAS_list[[i]][, Neff := 4 / ((1 / N_CAS) + (1 / N_CON))]
-  #
-  # Select columns
-  #
-  GWAS_list[[i]]<-GWAS_list[[i]][,c("SNP","CHR","BP","A1","A2","BETA","SE","P",
-                                    "FRQ","N","Neff","Z")]
-  #
-  # Edit column names
-  #
-  NI<-GWAS_names[i]
-  colnames(GWAS_list[[i]])<-c("SNP","CHR","BP","A1","A2",paste0("BETA_",NI),
-                            paste0("SE_",NI),paste0("P_",NI),paste0("FRQ_",NI),
-                            paste0("N_",NI),paste0("Neff_",NI),paste0("Z_",NI))
-  names(GWAS_list)[i]<-GWAS_names[i]
-}
+# Output file
 #
-# Build a table with number of shared SNPs
+file_name<-paste0(current_dir,"/Output/GWAS_METAL_",paste0(populations,collapse="_"),"_GRCh38_ .tbl")
+file_name<-sub("C:","/mnt/c",file_name)
+h<-h+1
+lines[h]<-paste("OUTFILE",file_name)
 #
-matSNPs<-matrix(data=NA,nrow=length(GWAS_names),ncol=length(GWAS_names))
-rownames(matSNPs)<-GWAS_names
-colnames(matSNPs)<-GWAS_names
-for (i in 1:length(GWAS_names)) {
-  for (j in 1:length(GWAS_names)) {
-    index<-which(GWAS_list[[i]]$SNP%in%GWAS_list[[j]]$SNP)
-    matSNPs[i,j]<-length(index)
+# Run the analysis
+#
+h<-h+1
+lines[h]<-"ANALYZE"
+h<-h+1
+lines[h]<-"QUIT"
+#
+# Save METAL script as txt file
+#
+writeLines(lines,"metal_script.txt")
+#
+#-------------------------------------------------------------------------------
+# Run METAL
+#-------------------------------------------------------------------------------
+#
+# Extract files, if they are zipped, and add Neff for METAL
+#
+for (i in 1:length(populations)) {
+  file_name_gz<-paste0(current_dir,"/Munged/",populations[i],"_GRCh38.tsv.gz")
+  file_name<-sub(".gz","",file_name_gz)
+  if(!file.exists(file_name)) {
+    mydata<-fread(file_name_gz)
+    mydata[, Neff := 4 / ((1 / N_CAS) + (1 / N_CON))]
+    file_name<-sub(".gz","",file_name)
+    fwrite(mydata,file_name,sep="\t")
+    remove(mydata)
   }
 }
-write.csv(matSNPs,"Output/Shared_SNPs.csv",row.names=T,quote=F)
 #
-# Write a file with all the SNPs, even if present in only some of the GWAS
+# Run Metal
 #
-GWAS_FULL<-Reduce(function(x,y) merge(x,y,by=c("SNP","CHR","BP","A1","A2"),all=T),GWAS_list)
-remove(GWAS_list)
-gc() # free unused memory
+command<-paste("wsl",metal_path,"/mnt/c/Users/macpa/OneDrive/Appunti/Genetics/MetaGWAS/metal_script.txt")
+time.start<-as.numeric(Sys.time())
+output<-system(command,wait=T,intern=T) # Run Exomiser
+time.end<-as.numeric(Sys.time())
+print(paste("METAL ended the analysis in",round((time.end-time.start)/60),"minutes"))
+print(output)
 #
-# Correlation table for Z scores
+# Remove unzipped files
 #
-Z_cols<-grep("Z_",colnames(GWAS_FULL),value=T)
-df<-as.data.frame(GWAS_FULL[sample(seq(1,nrow(GWAS_FULL)),2000000),Z_cols,with=F])
-Correlations(df,data.select="Z_scores",folder_path="Output",n.cex=2,alpha=0.05)
-remove(df)
-#
-# Save the result
-#
-fwrite(GWAS_FULL,"Output/GWAS_FULL.tsv.gz",sep="\t")
-remove(GWAS_FULL)
-#
-#-------------------------------------------------------------------------------
-# Meta GWAS 
-#-------------------------------------------------------------------------------
-#
-# Read data
-#
-GWAS_FULL<-fread("Output/GWAS_FULL.tsv.gz")
-#
-# Select columns on selected populations
-#
-index<-c()
-for (pop in populations) {
-  index<-c(index,which(grepl(pop,colnames(GWAS_FULL))))
-}
-CLM<-colnames(GWAS_FULL)[index]
-CLM<-c("SNP","CHR","BP","A1","A2",CLM)
-GWAS_META<-GWAS_FULL[,CLM,with=F]
-remove(GWAS_FULL)
-#
-# Compute N
-#
-n_cols<-grep("N_",colnames(GWAS_META),value=T)
-GWAS_META[,N:=rowSums(GWAS_META[,n_cols,with=F],na.rm=T)]
-#
-# Remove variants with no data
-#
-GWAS_META<-GWAS_META[N>0,]
-#
-# Compute weights (w = sqrt(Neff))
-# 
 for (i in 1:length(populations)) {
-  index<-grep(paste0("Neff_",populations[i]),colnames(GWAS_META),value=TRUE)
-  GWAS_META[,paste0("w_",populations[i]):=GWAS_META[,index,with=F]^0.5]
+  file_name<-paste0(current_dir,"/Munged/",populations[i],"_GRCh38.tsv")
+  if(file.exists(file_name)) {
+    file.remove(file_name)
+  }
 }
 #
-# Compute weighted Z ( Z = (w1*Z1 + w2*Z2 + w3*Z3 + ...)/(w1^2 + w2^2 + w3^2 + ...)^0.5 )
-# 
-w_cols<-grep("w_",colnames(GWAS_META),value=T)
-Z_cols<-grep("Z_",names(GWAS_META),value=T)
-GWAS_META[,Z:=rowSums(GWAS_META[,w_cols,with=F]*GWAS_META[,Z_cols,with=F],na.rm=T)/
-            (rowSums(GWAS_META[,w_cols,with=F]^2,na.rm=T))^0.5]
+#-------------------------------------------------------------------------------
+# Read Metal meta-analysis, edit, and munge it for downstream analysis 
+#-------------------------------------------------------------------------------
 #
-# Compute p-value
+# Read summary statistics
 #
-GWAS_META[,P:=2*pnorm(-abs(Z))]
+file_name<-paste0(current_dir,"/Output/GWAS_METAL_",paste0(populations,collapse="_"),"_GRCh38_1.tbl")
+mydata<-fread(file_name)
+head(mydata)
+colnames(mydata)
 #
-# Compute Neff
+# Filter by MAF
 #
-Neff_cols<-grep("Neff_",colnames(GWAS_META),value=T)
-GWAS_META[,Neff:=rowSums(GWAS_META[,Neff_cols,with=F],na.rm=T)]
+mydata<-mydata[mydata$Freq1>=MAFco_uc,]
+mydata<-mydata[mydata$Freq1<=(1-MAFco_uc),]
 #
-# Compute SE
+# Change names
 #
-GWAS_META[,SE:=Neff^(-0.5)]
+for (j in 1:ncol(mydata)) {
+  if (colnames(mydata)[j]=="MarkerName") colnames(mydata)[j]<-"SNP" 
+  if (colnames(mydata)[j]=="Allele1") colnames(mydata)[j]<-"A1"
+  if (colnames(mydata)[j]=="Allele2") colnames(mydata)[j]<-"A2" 
+  if (colnames(mydata)[j]=="Freq1") colnames(mydata)[j]<-"FRQ"
+  if (colnames(mydata)[j]=="Zscore") colnames(mydata)[j]<-"Z"
+  if (colnames(mydata)[j]=="P-value") colnames(mydata)[j]<-"P"
+  if (colnames(mydata)[j]=="Weight") colnames(mydata)[j]<-"Neff"
+}
+#
+# Calculate SE (it is necessary to calculate BETA from Z, which is required for FUMA)
+#
+mydata[,SE:=(0.5*N*FRQ*(1-FRQ))^(-0.5)]
 #
 # Compute BETA
 #
-GWAS_META[,BETA:=Z*SE]
+mydata[,BETA:=Z*SE]
 #
-# Save 
+# Munge in GRCh38
 #
-file_name<-paste0("Output/GWAS_META_",paste0(populations,collapse="_"),"_GRCh38.tsv.gz")
-fwrite(GWAS_META[,c("SNP","CHR","BP","A1","A2","BETA","SE","P","N","Z")],file_name,sep="\t")
+munge_path<-paste0(current_dir,"/Output/GWAS_METAL_",paste0(populations,collapse="_"),"_GRCh38.tsv.gz")
 #
-# Lift over from GRCh38 to GRCh37 and save
+if (file.exists(munge_path)) file.remove(munge_path)
+format_sumstats(mydata,ref_genome="GRCh38",
+                convert_ref_genome="GRCh38",
+                bi_allelic_filter=F,
+                flip_frq_as_biallelic=T,
+                save_path=munge_path) 
 #
-munge_path<-paste0("Output/GWAS_META_",paste0(populations,collapse="_"),"_GRCh37.tsv.gz")
+# Check for errors
+# 
+mymunged<-fread(munge_path)
+test<-1
+while(test<30) {
+  n1<-sample(c(1:nrow(mymunged)),1)
+  n2<-which(mydata$SNP==mymunged$SNP[n1])
+  if (((capitalize(mydata[n2,"A2",with=F])==mymunged[n1,"A2",with=F])&
+       abs(mydata[n2,"Z",with=F]-mymunged[n1,"Z",with=F])<1e-6)|
+      ((capitalize(mydata[n2,"A2",with=F])==mymunged[n1,"A1",with=F])&
+       abs(mydata[n2,"Z",with=F]+mymunged[n1,"Z",with=F])<1e-6)) {
+    test<-test+1
+    next
+  } else {
+    stop("Munging generated an error!")
+  }
+}
 #
-if (!file.exists(munge_path)) {
-  format_sumstats(GWAS_META[,c("SNP","CHR","BP","A1","A2","BETA","SE","P","N","Z")],
-                  ref_genome="GRCh38",convert_ref_genome="GRCh37",save_path=munge_path)  
-} 
-
+# Lift over to GRCh37
+#
+munge_path<-paste0(current_dir,"/Output/GWAS_METAL_",paste0(populations,collapse="_"),"_GRCh37.tsv.gz")
+#
+if (file.exists(munge_path)) file.remove(munge_path)
+format_sumstats(mydata,ref_genome="GRCh38",
+                convert_ref_genome="GRCh37",
+                bi_allelic_filter=F,
+                flip_frq_as_biallelic=T,
+                save_path=munge_path)  
+#
+# Check for errors
+# 
+mymunged<-fread(munge_path)
+test<-1
+while(test<30) {
+  n1<-sample(c(1:nrow(mymunged)),1)
+  n2<-which(mydata$SNP==mymunged$SNP[n1])
+  if (((capitalize(mydata[n2,"A2",with=F])==mymunged[n1,"A2",with=F])&
+       abs(mydata[n2,"Z",with=F]-mymunged[n1,"Z",with=F])<1e-6)|
+      ((capitalize(mydata[n2,"A2",with=F])==mymunged[n1,"A1",with=F])&
+       abs(mydata[n2,"Z",with=F]+mymunged[n1,"Z",with=F])<1e-6)) {
+    test<-test+1
+    next
+  } else {
+    stop("Munging generated an error!")
+  }
+}
+remove(mydata)
+gc() # free unused memory
+#
+#-------------------------------------------------------------------------------
+# Plot Z scores for best associations 
+#-------------------------------------------------------------------------------
+#
+# Read meta-analysis
+#
+file_name<-paste0(current_dir,"/Output/GWAS_METAL_",paste0(populations,collapse="_"),"_GRCh38.tsv.gz")
+mydata<-fread(file_name,sep="\t")
+#
+# Find best SNPs in meta analysis
+#
+mybest<-list()
+n.best<-9
+setorder(mydata,P)
+mybest[[1]]<-mydata[1:n.best,]
+names(mybest)[1]<-"METAL"
+remove(mydata)
+#
+# Recover the best SNPs from the input GWAS
+#
+for (i in 1:length(populations)) {
+  file_name_gz<-paste0(current_dir,"/Munged/",populations[i],"_GRCh38.tsv.gz")
+  mydata<-fread(file_name_gz)
+  mybest[[1+i]]<-mydata[SNP%in%mybest[[1]]$SNP]
+  mybest[[1+i]]<-mybest[[1+i]][mybest[[1]]$SNP,on="SNP"] # ask for the same order in SNPs
+  mybest[[1+i]][, Neff := 4 / ((1 / N_CAS) + (1 / N_CON))]
+  names(mybest)[1+i]<-populations[i]
+  remove(mydata)
+}
+#
+# Plot Zs for a comparison between meta analysis and input GWASs
+#
+plots<-list()
+for (i in 1:n.best) {
+  Zeta<-data.frame(name=names(mybest),Z=rep(NA,length(mybest)),
+                   FRQ=rep(NA,length(mybest)),
+                   Neff=rep(NA,length(mybest)))
+  for (j in 1:length(mybest)) {
+    Zeta$Z[j]<-mybest[[j]]$Z[i]
+    Zeta$FRQ[j]<-mybest[[j]]$FRQ[i]
+    if (j==1) {
+      Zeta$Neff[j]<-round(mybest[[j]]$N[i]) # for the meta analysis N is the Neff corrected for overlap
+    } else {
+      Zeta$Neff[j]<-round(mybest[[j]]$Neff[i])
+    }
+  }
+  Zeta$name<-factor(Zeta$name,levels=unique(Zeta$name))
+  #
+  # prepare the ID of the variant with hg38 coordinates and RSID 
+  #
+  variant<-paste0(c(mybest[[2]]$CHR[i],mybest[[2]]$BP[i],mybest[[2]]$A1[i],
+                  mybest[[2]]$A2[i]),collapse=":")
+  variant<-paste0(variant," (",mybest[[2]]$SNP[i],")")
+  #
+  # build plot 
+  #
+  
+  plots[[i]]<-ggplot(Zeta,aes(x=name,y=Z)) +
+    geom_hline(yintercept=0,linetype="dashed",colour="black",lwd=0.8) +
+    geom_segment(aes(x=name,xend=name,y=0,yend=Z)) +
+    geom_point(size=4) +
+    labs(x=NULL,y="Z-score") +
+    labs(title=variant) +
+    #
+    # Add FRQ
+    #
+    geom_text(
+      aes(label = sprintf("%.3f", FRQ)),
+      vjust = -1.2,
+      color = "blue",
+      size = 4
+    ) +
+    #
+    # Add Neff
+    #
+    geom_text(
+      aes(label = format(round(Neff), big.mark = ",")),
+      vjust = 1.8,
+      color = "darkred",
+      size = 4
+    ) +
+    
+    theme_grey(base_size=14) +
+    coord_flip() +
+    theme(
+      plot.title=element_text(size=14,hjust=0.5),
+      axis.title.x=element_text(size=16),
+      axis.text=element_text(size=16)
+    )
+}
+#
+# Plot results
+#
+file_name<-paste0(current_dir,"/Output/GWAS_METAL_",
+                  paste0(populations,collapse="_"),"_GRCh38.pdf")
+pdf(file_name,width=20,height=20)
+wrap_plots(plots,ncol=3)
+dev.off()
