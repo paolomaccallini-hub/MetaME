@@ -1,4 +1,4 @@
-# file name: META_main
+# file name: META_main_2
 #
 #-------------------------------------------------------------------------------
 # This script performs GWAS meta analysis for CFS using DecodeME (15579 EUR), 
@@ -747,3 +747,4 @@ file_name<-paste0(current_dir,"/Output/GWAS_METAL_",
 pdf(file_name,width=20,height=20)
 wrap_plots(plots,ncol=3)
 dev.off()
+
