@@ -17,4 +17,3 @@ PROCESS /mnt/c/Users/macpa/OneDrive/Appunti/Genetics/MetaGWAS/Munged/UKBEIB_GRCh
 OUTFILE /mnt/c/Users/macpa/OneDrive/Appunti/Genetics/MetaGWAS/Output/GWAS_METAL_DME_MVP_UKBEIB_FG_GRCh38_ .tbl
 ANALYZE
 QUIT
-
