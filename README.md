@@ -45,7 +45,7 @@ The pipeline standardises the five summary statistics using the R package MungeS
 | **N_CAS** | number of cases |
 | **N_CON** | number of controls |
 
-I used the commands `bi_allelic_filter=F` and `flip_frq_as_biallelic=T` to include the non-biallelic SNPs. Note that with this setting, if a non-biallelic SNP need allele flipping, the frequency of the alternate allele is computed as 1-FRQ, therefore it is always bigger than it is in reality. This may affect the following analysis! 
+I used the commands `bi_allelic_filter=F` and `flip_frq_as_biallelic=T` to include the non-biallelic SNPs. Note that with this setting, if a non-biallelic SNP need allele flipping, the frequency of the alternate allele is computed as 1-FRQ, therefore it is always bigger than it is in reality. **Note that while this affects FRQ, SE, and BETA, it does not affect the analysis by METAL (based on p-values only) and by FUMA, which uses BETAs only for direction of the effect.**
 
 Each sumstat can have additional columns (like OR, for logistic regression, or LOG10P). As an example, here you can see the rows of the munged sumstat of DecodeMe (`\Munged\DME_GRCh38.tsv.gz`) that contain the 5 most significant variants:
 
