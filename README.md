@@ -91,13 +91,13 @@ I submitted the GRCh37 summary statistics to FUMA (Functional Mapping and Annota
 
 ### FUMA: cell-type analysis
 
-I used the results from the SNP2GENE analysis as input to the Cell Type module ([Watanabe 2019](https://www.nature.com/articles/s41467-019-11181-1)), using as datasets the ensemble of 28 scRNA-seq datasets covering human and mouse brain. I focused on the brain because MAGMA tissue expression analysis over the 53 tissues of GTEx v8 suggests a significant regression of several anatomical regions of the central nervous system. I included steps 1, 2, and 3 of the standard cell type analysis (they are explained below). I requested a Bonferroni multiple comparison test. The analysis consists of three steps. In particular, the first step tests the significance of the estimate of $\ B_{E}$ in the following linear model, which is computed for each one of the cell types (across all the datasets selected, 28 in our case):
+I used the results from the SNP2GENE analysis as input to the Cell Type module ([Watanabe 2019](https://www.nature.com/articles/s41467-019-11181-1)), using both the mous brain and the human brain. For the mouse brain, I employed the datasets from DropViz, only level 2 (L2); the regions considered are Cerebellum (CB), Entopeduncular nucleus & subthalamic nucleus (EP/STN), Frontal cortex (FC), Globus pallidus externus & nucleus basalis (GB/NB), Hippocampus (HP), Posterior cortex (PC), Striatum (STR), Substantia nigra & ventral tegmental area (SN/VTA), and Thalamus (TH) ([Saunders 2018](https://pubmed.ncbi.nlm.nih.gov/30096299/)). For the human brain, I used L2 of Siletti datasets ([Siletti 2023](https://pubmed.ncbi.nlm.nih.gov/37824663/)), from all the available regions of the adult brain. For the white matter, I used L2 of the dataset from ([Seeker 2023](https://pubmed.ncbi.nlm.nih.gov/37217978/)). Level 2 allows to distinguish between the main cell classes (neurons, glial, microglia, oligodendrocytes etc). I focused on the brain because MAGMA tissue expression analysis over the 53 tissues of GTEx v8 suggests a significant regression of several anatomical regions of the central nervous system. I included steps one, two, and three of the standard cell type analysis (they are explained below). I requested a Bonferroni multiple comparison test. The analysis consists of three steps. In particular, the first step tests the significance of the estimate of $\ B_{E}$ in the following linear model, which is computed for each one of the cell types (across all the datasets selected, 28 in our case):
 
 $$
 Z_{gene_{i}}=B_{0}+E_{gene_i}^{c}B_{E}+{E}_{gene_{i}}B_{A}+G_i^{(1)}B_1+G_i^{(2)}B_2+\cdot\cdot\cdot+G_i^{(n)}B_n
 $$
 
-for i=1, 2,..., N, where N is the total number of genes included in the analysis (usually around 18,000 genes), $\ Z_{gene_{i}}$ is the zeta-score computed for gene i by the SNP2GENE module, $\ E_{gene_i}^{c}$ is the gene expression of gene i in cell type c, $\ E_{gene_i}$ is the average expression of of gene i across multiple cell types, and $\ G_i^{(n)}$ with j in 1, 2, ..., n are confounders such as gene length and correations between genes calculate from the LD matrices of the reference population ([Watanabe 2019](https://www.nature.com/articles/s41467-019-11181-1)). In step one, p-values are calculated for each cell type from the statistical test on the estimate $\ B_{E}$. These p-values are then corrected for multiple comparisons (Bonferroni) within each dataset. Sep three detects independent associations across all the datasets employed. 
+for i=1, 2,..., N, where N is the total number of genes included in the analysis (usually around 18,000 genes), $\ Z_{gene_{i}}$ is the zeta-score computed for gene i by the SNP2GENE module, $\ E_{gene_i}^{c}$ is the gene expression of gene i in cell type c, $\ E_{gene_i}$ is the average expression of of gene i across multiple cell types, and $\ G_i^{(n)}$ with j in 1, 2, ..., n are confounders such as gene length and correations between genes calculate from the LD matrices of the reference population ([Watanabe 2019](https://www.nature.com/articles/s41467-019-11181-1)). In step one, p-values are calculated for each cell type from the statistical test on the estimate $\ B_{E}$. These p-values are then corrected for multiple comparisons (Bonferroni) within each dataset. In step two, a conditional analysis is performed within each dataset, and independednt signals are select by forward-selection. Sep three detects independent associations across all the datasets employed. 
 
 ## Results
 
@@ -160,6 +160,40 @@ MAGMA-proprietary tissue analysis, based on a linear regression between zeta sco
   <img width="1215" height="631" alt="image" src="https://github.com/user-attachments/assets/8684d497-12ed-4d39-8eb5-6d7bed47b955" />
   <figcaption><em>Figure 2. MAGMA tissue analysis showing significant associations across basal ganglia, cerebellum, and cortex.</em></figcaption>
 </figure>
+
+### Cell-type analysis
+
+#### Mouse Brain
+
+The results of cell-type analysis for DropViz layer 2 (L2) scRNAseq datasets, from step1 to step3, are summarized in Figure 3. In step one (top-left), all the significant regressions are reported, after correction for multiple comparisons. In step two (center), the independednt signal for each dataset are selected. In step three (bottom right), independence across datasets is detected: stars indicate the collinear covariates of the regression model, while the element of row i and column j indicates the PS of cell type j conditioning on cell type i.  
+
+![step1_3_FUMA_celltype687746](https://github.com/user-attachments/assets/987a590d-a8c1-448e-8383-2f08461cfb79)
+
+<p align="left">
+  <em>Figure 3. Results of cell-type analysis, using the DropViz scRNA-seq datasets for the mouse brain. STR: striatum; GP: Globus Pallidus; SN: Substantia Nigra; CB: cerebellum; FC: Frontal Cortex; PC: Posterior Cortex. Top-left: all the significant regressions, after correction for multiple comparisons. Center: only independet signals for each dataset. Bottom-right: collinear covariates are indicated by a star in the bottom right. </em>
+</p>
+
+Below, the significant regressions form step 2. The marker (last column) is the gene most significantly over-expressed in the corresponding cell (column two), differentiating it from the other neurons from the same analtomical region. It helps identifying the function of the corresponding cell-type.
+
+| Dataset               | Cell-type     | Link       | Region    | Marker | 
+| :----------------------- | :--------- | :---------- | :---------- | :--------------- | 
+|DropViz_STR_level2| Neuron_Gad1Gad2_Drd1-Cxcl14.10_5 | ([LINK](http://dropviz.org/?_state_id_=d0a73294fbfd7f31)) | Striatum | Gad1 |
+|DropViz_GP_level2 | Neuron_Gad1Gad2-Th_Adora2a-Th.3_9 | ([LINK](http://dropviz.org/?_state_id_=71b4c763229570cc)) | Globus Pallidus | Gad1 |
+|DropViz_SN_level2| Neuron_Th_Cbln1.4_2 | ([LINK](http://dropviz.org/?_state_id_=e47c69747e76a1d8)) | Substantia Nigra | Cbln1 |
+|DropViz_CB_level2|Neuron_Slc17a7_Gabra6.1_1|([LINK](http://dropviz.org/?_state_id_=9e9aa9822d0cde0d))| Cerebellum | Slc17a7 |
+|DropViz_FC_level2|Neuron_Gad1Gad2_Synpr-Pcdh11x.1_6|([LINK](http://dropviz.org/?_state_id_=7529ef81ab262f39))| Frontal Cortex | Gad1 | 
+|DropViz_PC_level2|Neuron_Sc17a7_Calb1-Lpl-Penk.2_7|([LINK](http://dropviz.org/?_state_id_=8cf22fbfca5de800))| Posterior Cortex | Slc17a7 |
+|DropViz_SN_level2|Neuron_Slc17a6.2_1|([LINK](http://dropviz.org/?_state_id_=34f9c7bee2bbf892))| Substantia Nigra | Slc17a6 |
+
+#### Human brain
+
+The results of cell-type analysis for Siletti (all regions) and Seeker (White Matter) layer 2 (L2) scRNAseq datasets, step1 and step3, are summarized in Figure 4.
+
+![Immagine 2025-12-19 174755](https://github.com/user-attachments/assets/1ebe904c-2aac-45bf-93fd-ca5f451912fe)
+
+<p align="left">
+  <em>Figure 4. Results of cell-type analysis, using the Siletti (all regions) and Seeker (White matter) scRNA-seq datasets for the human brain. STR: striatum; GP: Globus Pallidus; SN: Substantia Nigra; CB: cerebellum; FC: Frontal Cortex; PC: Posterior Cortex. Top-left: all the significant regressions, after correction for multiple comparisons. Center: only independet signals for each dataset. Bottom-right: collinear covariates are indicated by a star in the bottom right. </em>
+</p>
 
 ## About the pipeline
 
