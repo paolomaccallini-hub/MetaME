@@ -187,12 +187,12 @@ Below, the significant regressions form step 2. The marker (last column) is the 
 
 #### Human brain
 
-The results of cell-type analysis for Siletti (all regions) and Seeker (White Matter) layer 2 (L2) scRNAseq datasets, step1 and step3, are summarized in Figure 4.
+The results of cell-type analysis for Siletti (all regions) and Seeker (White Matter) layer 2 (L2) scRNAseq datasets, step1 and step3, are summarized in Figure 4. There is a positive regression with excitatory neurons of the white matter in both young and old human brain.
 
 ![Immagine 2025-12-19 174755](https://github.com/user-attachments/assets/1ebe904c-2aac-45bf-93fd-ca5f451912fe)
 
 <p align="left">
-  <em>Figure 4. Results of cell-type analysis, using the Siletti (all regions) and Seeker (White matter) scRNA-seq datasets for the human brain. STR: striatum; GP: Globus Pallidus; SN: Substantia Nigra; CB: cerebellum; FC: Frontal Cortex; PC: Posterior Cortex. Top-left: all the significant regressions, after correction for multiple comparisons. Center: only independet signals for each dataset. Bottom-right: collinear covariates are indicated by a star in the bottom right. </em>
+  <em>Figure 4. Results of cell-type analysis, using the Siletti (all regions) and Seeker (White matter) scRNA-seq datasets for the human brain. Top-left: all the significant regressions, after correction for multiple comparisons. Bottom-right: collinear covariates are indicated by a star in the bottom right. No collinearity detected. </em>
 </p>
 
 ## About the pipeline
