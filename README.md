@@ -20,11 +20,9 @@ The main results of FUMA output are reported here, and the reader can explore an
 | **UKBiobank (EIB)**      | UKBEIB| 2092 | 482506 | self_reported CFS | Linear | EUR | GRCh37 | ([Dönertaş_2021](https://europepmc.org/article/MED/33959723)) | ([GCST90038694](https://ftp.ebi.ac.uk/pub/databases/gwas/summary_statistics/GCST90038001-GCST90039000/GCST90038694)) |
 | **FinnGen** | FG | 283 | 663029 | Post-viral fatigue | Logistic | FIN | GRCh38 | ([Kurki_2023](https://pubmed.ncbi.nlm.nih.gov/36653562/)) | ([R12_G6_POSTVIRFAT](https://www.finngen.fi/en/researchers/accessing)) |
 
-Consult the respective project documentation for licensing or data use agreements that may apply to the downloaded data.
-
 ### Filtering criteria
 
-The pipeline filters the input GWAS keeping only common variants (MAF above 0.01). For DecodeME, UKBNL, and UKBEIB only variants with INFO above 0.9 were kept. For UKBNL, low confidence variants were removed. For UKBNL, variants with `p_HWE` below 1e-06 were removed.
+The pipeline filters the input GWAS keeping only common variants (MAF above 0.01). For DecodeME, UKBNL, and UKBEIB only variants with INFO above 0.9 were kept. For UKBNL, low-confidence variants were removed. For UKBNL, variants with `p_HWE` below 1e-06 were removed.
 
 ### Munging and Liftover
 
@@ -45,7 +43,7 @@ The pipeline standardises the five summary statistics using the R package MungeS
 | **N_CAS** | number of cases |
 | **N_CON** | number of controls |
 
-I used the commands `bi_allelic_filter=F` and `flip_frq_as_biallelic=T` to include the non-biallelic SNPs. Note that with this setting, if a non-biallelic SNP need allele flipping, the frequency of the alternate allele is computed as 1-FRQ, therefore it is always bigger than it is in reality. **Note that while this affects FRQ, SE, and BETA, it does not affect the analysis by METAL (based on p-values only) and by FUMA, which uses BETAs only for direction of the effect.**
+I used the commands `bi_allelic_filter=F` and `flip_frq_as_biallelic=T` to include the non-biallelic SNPs. Note that with this setting, if a non-biallelic SNP need allele flipping, the frequency of the alternate allele is computed as 1-FRQ. Therefore, it is always bigger than it is in reality. **Note that while this affects FRQ, SE, and BETA, it does not affect the analysis by METAL (based on p-values only) and by FUMA, which uses BETAs only for direction of the effect.**
 
 Each sumstat can have additional columns (like OR, for logistic regression, or LOG10P). As an example, here you can see the rows of the munged sumstat of DecodeMe (`\Munged\DME_GRCh38.tsv.gz`) that contain the 5 most significant variants:
 
@@ -59,13 +57,13 @@ Each sumstat can have additional columns (like OR, for logistic regression, or L
 
 ### Meta-analysis
 
-This pipeline employs METAL, a popular tool for the meta analysis of genomewide associations studies ([Willer 2010](https://academic.oup.com/bioinformatics/article/26/17/2190/198154)). `META_Main_2.R` builds the script with instructions for METAL and pass it to a local installation of the latest release ([available here](https://github.com/statgen/METAL/releases/tag/2020-05-05)). The source code was compiled in the WSL2 environment. `META_Main_2.R` generates the instruction script for METAL (see file `metal_script.txt` in this repository), then builds the command for METAL and call it using the R function `system()`.      
+This pipeline utilises METAL, a widely used tool for meta-analysis of genome-wide association studies ([Willer 2010](https://academic.oup.com/bioinformatics/article/26/17/2190/198154)). `META_Main_2.R` builds the script with instructions for METAL and pass it to a local installation of the latest release ([available here](https://github.com/statgen/METAL/releases/tag/2020-05-05)). The source code was compiled in the WSL2 environment. `META_Main_2.R` generates the instruction script for METAL (see file `metal_script.txt` in this repository), then builds the command for METAL and call it using the R function `system()`.      
 
 While DecodeME, MVP, and FinnGen rely on logistic regression for trait-variant marginal associations, the two UK Biobank GWASs employed a linear regression model. In a case like this, Inverse Variance Weighted (IVW) meta-analysis is not feasible, since BETAs and SEs from different regression models are not directly comparable. We must rely on zeta scores instead, using a sample-size weighted meta-analysis, as described in ([Willer 2010](https://academic.oup.com/bioinformatics/article/26/17/2190/198154)). In METAL, this kind of analysis can be set command `SCHEME SAMPLESIZE`.
 
-Also, given a possible overlap between DecodeME and UKBiobank healthy controls, we ask METAL to perform a correction using the instruction `OVERLAP ON`. This correction is based on the assumption that for small Z scores (the default cut-off is 1), the Z scores of different GWAS should be independent gaussian randoma variables ([Lin DY 2009](https://pubmed.ncbi.nlm.nih.gov/20004761/)).  
+Also, given a possible overlap between DecodeME and UKBiobank healthy controls, we ask METAL to perform a correction using the instruction `OVERLAP ON`. This correction is based on the assumption that for small Z scores (the default cut-off is 1), the Z scores of different GWAS should be independent Gaussian random variables ([Lin DY 2009](https://pubmed.ncbi.nlm.nih.gov/20004761/)).  
 
-For each GWAS, this pipelines passes METAL the effective sample size as weight, defined as follows: 
+For each GWAS, this pipeline passes METAL the effective sample size as weight, defined as follows: 
 
 $$
 N_{eff}=\frac{4}{\frac{1}{N_{CAS}}+\frac{1}{N_{CON}}}
@@ -77,7 +75,7 @@ $$
 SE=\frac{1}{\sqrt{{0.5N(1-FRQ)FRQ}}}
 $$
 
-where N is the total effective size, after correction for overlapping samples. After that, the pipeline calculates BETA using the well-known relation between BETA, Z, and SE: $\ BETA=SE \cdot Z$. After that, the output from METAL is munged by MungeSumstats (as described before) and the summary statistics of the meta-GWAS is generated with respect to both GRCh37 and GRCh38. A comparison between the Z scores accross the input GWAS is plotted as PDF for the nine SNPs with the lowest p-value (see below, and see among the files of this repository). 
+where N is the total effective size, after correction for overlapping samples. After that, the pipeline calculates BETA using the well-known relation between BETA, Z, and SE: $\ BETA=SE \cdot Z$. After that, the output from METAL is munged by MungeSumstats (as described before), and the summary statistics of the meta-GWAS is generated with respect to both GRCh37 and GRCh38. A comparison between the Z scores across the input GWAS is plotted as a PDF for the nine SNPs with the lowest p-value (see below, and see among the files of this repository). 
 
 ![GWAS_METAL_DME_MVP_UKBEIB_GRCh38](https://github.com/user-attachments/assets/1ee43b75-cdc0-4ad3-ad30-c3721ffc0f00)
 
@@ -87,17 +85,17 @@ where N is the total effective size, after correction for overlapping samples. A
 
 ### FUMA: gene-mapping and tissue analysis
 
-I submitted the GRCh37 summary statistics to FUMA (Functional Mapping and Annotation of GWAS), a web service that includes several modules for various stages of GWAS analysis. The SNP2GENE module is the first step: it identifies risk loci and performs gene mapping according to several criteria (positional mapping, eQTL-based and chromatin-based mapping) ([Watanabe 2017](https://academic.oup.com/bioinformatics/article/37/23/4593/6380562)). In SNP2GENE, I requested the 1000G Phase EUR reference population, which is in GRCh37. I used GTEx v8 for gene mapping by eQTL, and included positional mapping. I requested MAGMA analysis, which is a necessary step for subsequently running the Cell Type module. I left the default values for the other parameters. Next, tissue-level analysis was assessed using MAGMA gene-property analysis as implemented in FUMA, which performs a regression of gene-level association Z-scores on tissue-specific gene expression levels (from GTEx and other datasets) to identify tissues in which genetic associations are overrepresented. The analysis is available at this link: [meta-GWAS analysis](https://fuma.ctglab.nl/snp2gene/666819).
+I submitted the GRCh37 summary statistics to FUMA (Functional Mapping and Annotation of GWAS), a web service that includes several modules for various stages of GWAS analysis. The SNP2GENE module is the first step: it identifies risk loci and performs gene mapping according to various criteria (positional mapping, eQTL-based and chromatin-based mapping) ([Watanabe 2017](https://academic.oup.com/bioinformatics/article/37/23/4593/6380562)). In SNP2GENE, I requested the 1000G Phase EUR reference population, which is in GRCh37. I used GTEx v8 for gene mapping by eQTL, and included positional mapping. I requested MAGMA analysis, which is a necessary step for subsequently running the Cell Type module. I left the default values for the other parameters. Next, tissue-level analysis was assessed using MAGMA gene-property analysis as implemented in FUMA, which performs a regression of gene-level association Z-scores on tissue-specific gene expression levels (from GTEx and other datasets) to identify tissues in which genetic associations are overrepresented. The analysis is available at this link: [meta-GWAS analysis](https://fuma.ctglab.nl/snp2gene/666819).
 
 ### FUMA: cell-type analysis
 
-I used the results from the SNP2GENE analysis as input to the Cell Type module ([Watanabe 2019](https://www.nature.com/articles/s41467-019-11181-1)), using both the mous brain and the human brain. For the mouse brain, I employed the datasets from DropViz, only level 2 (L2); the regions considered are Cerebellum (CB), Entopeduncular nucleus & subthalamic nucleus (EP/STN), Frontal cortex (FC), Globus pallidus externus & nucleus basalis (GB/NB), Hippocampus (HP), Posterior cortex (PC), Striatum (STR), Substantia nigra & ventral tegmental area (SN/VTA), and Thalamus (TH) ([Saunders 2018](https://pubmed.ncbi.nlm.nih.gov/30096299/)). For the human brain, I used L2 of Siletti datasets ([Siletti 2023](https://pubmed.ncbi.nlm.nih.gov/37824663/)), from all the available regions of the adult brain. For the white matter, I used L2 of the dataset from ([Seeker 2023](https://pubmed.ncbi.nlm.nih.gov/37217978/)). Level 2 allows to distinguish between the main cell classes (neurons, glial, microglia, oligodendrocytes etc). I focused on the brain because MAGMA tissue expression analysis over the 53 tissues of GTEx v8 suggests a significant regression of several anatomical regions of the central nervous system. I included steps one, two, and three of the standard cell type analysis (they are explained below). I requested a Bonferroni multiple comparison test. The analysis consists of three steps. In particular, the first step tests the significance of the estimate of $\ B_{E}$ in the following linear model, which is computed for each one of the cell types (across all the datasets selected, 28 in our case):
+I used the results from the SNP2GENE analysis as input to the Cell Type module ([Watanabe 2019](https://www.nature.com/articles/s41467-019-11181-1)), using both the mouse brain and the human brain. For the mouse brain, I employed the datasets from DropViz, only level 2 (L2); the regions considered are Cerebellum (CB), Entopeduncular nucleus & subthalamic nucleus (EP/STN), Frontal cortex (FC), Globus pallidus externus & nucleus basalis (GB/NB), Hippocampus (HP), Posterior cortex (PC), Striatum (STR), Substantia nigra & ventral tegmental area (SN/VTA), and Thalamus (TH) ([Saunders 2018](https://pubmed.ncbi.nlm.nih.gov/30096299/)). For the human brain, I used L2 of Siletti datasets ([Siletti 2023](https://pubmed.ncbi.nlm.nih.gov/37824663/)), from all the available regions of the adult brain. For the white matter, I used L2 of the dataset from ([Seeker 2023](https://pubmed.ncbi.nlm.nih.gov/37217978/)). Level 2 allows to distinguish between the main cell classes (neurons, glial, microglia, oligodendrocytes etc). I focused on the brain because MAGMA tissue expression analysis over the 53 tissues of GTEx v8 suggests a significant regression of several anatomical regions of the central nervous system. I included steps one, two, and three of the standard cell type analysis (they are explained below). I requested a Bonferroni multiple comparison test. The analysis consists of three steps. In particular, the first step tests the significance of the estimate of $\ B_{E}$ in the following linear model, which is computed for each one of the cell types (across all the datasets selected, 28 in our case):
 
 $$
 Z_{gene_{i}}=B_{0}+E_{gene_i}^{c}B_{E}+{E}_{gene_{i}}B_{A}+G_i^{(1)}B_1+G_i^{(2)}B_2+\cdot\cdot\cdot+G_i^{(n)}B_n
 $$
 
-for i=1, 2,..., N, where N is the total number of genes included in the analysis (usually around 18,000 genes), $\ Z_{gene_{i}}$ is the zeta-score computed for gene i by the SNP2GENE module, $\ E_{gene_i}^{c}$ is the gene expression of gene i in cell type c, $\ E_{gene_i}$ is the average expression of of gene i across multiple cell types, and $\ G_i^{(n)}$ with j in 1, 2, ..., n are confounders such as gene length and correations between genes calculate from the LD matrices of the reference population ([Watanabe 2019](https://www.nature.com/articles/s41467-019-11181-1)). In step one, p-values are calculated for each cell type from the statistical test on the estimate $\ B_{E}$. These p-values are then corrected for multiple comparisons (Bonferroni) within each dataset. In step two, a conditional analysis is performed within each dataset, and independednt signals are select by forward-selection. Sep three detects independent associations across all the datasets employed. 
+for i=1, 2,..., N, where N is the total number of genes included in the analysis (usually around 18,000 genes), $\ Z_{gene_{i}}$ is the zeta-score computed for gene i by the SNP2GENE module, $\ E_{gene_i}^{c}$ is the gene expression of gene i in cell type c, $\ E_{gene_i}$ is the average expression of of gene i across multiple cell types, and $\ G_i^{(n)}$ with j in 1, 2, ..., n are confounders such as gene length and correation between genes calculate from the LD matrices of the reference population ([Watanabe 2019](https://www.nature.com/articles/s41467-019-11181-1)). In step one, p-values are calculated for each cell type from the statistical test on the estimate $\ B_{E}$. These p-values are then corrected for multiple comparisons (Bonferroni) within each dataset. In step two, a conditional analysis is performed within each dataset, and independent signals are selected by forward-selection. Sep three detects independent associations across all the datasets employed. 
 
 ## Results
 
@@ -165,15 +163,15 @@ MAGMA-proprietary tissue analysis, based on a linear regression between zeta sco
 
 #### Mouse Brain
 
-The results of cell-type analysis for DropViz layer 2 (L2) scRNAseq datasets, from step1 to step3, are summarized in Figure 3. In step one (top-left), all the significant regressions are reported, after correction for multiple comparisons. In step two (center), the independednt signal for each dataset are selected. In step three (bottom right), independence across datasets is detected: stars indicate the collinear covariates of the regression model, while the element of row i and column j indicates the PS of cell type j conditioning on cell type i.  
+The results of cell-type analysis for DropViz layer 2 (L2) scRNAseq datasets, from step one to step three, are summarized in Figure 3. In step one (top-left), all the significant regressions are reported, after correction for multiple comparisons. In step two (center), the independent signals for each dataset are selected. In step three (bottom right), independence across datasets is detected: stars indicate the collinear covariates of the regression model, while the element of row i and column j indicates the PS of cell type j conditioning on cell type i.  
 
 ![step1_3_FUMA_celltype687746](https://github.com/user-attachments/assets/987a590d-a8c1-448e-8383-2f08461cfb79)
 
 <p align="left">
-  <em>Figure 3. Results of cell-type analysis, using the DropViz scRNA-seq datasets for the mouse brain. STR: striatum; GP: Globus Pallidus; SN: Substantia Nigra; CB: cerebellum; FC: Frontal Cortex; PC: Posterior Cortex. Top-left: all the significant regressions, after correction for multiple comparisons. Center: only independet signals for each dataset. Bottom-right: collinear covariates are indicated by a star in the bottom right. </em>
+  <em>Figure 3. Results of cell-type analysis, using the DropViz scRNA-seq datasets for the mouse brain. STR: striatum; GP: Globus Pallidus; SN: Substantia Nigra; CB: cerebellum; FC: Frontal Cortex; PC: Posterior Cortex. Top-left: all the significant regressions, after correction for multiple comparisons. Center: only independent signals for each dataset. Bottom-right: collinear covariates are indicated by a star in the bottom right. </em>
 </p>
 
-Below, the significant regressions form step 2. The marker (last column) is the gene most significantly over-expressed in the corresponding cell (column two), differentiating it from the other neurons from the same analtomical region. It helps identifying the function of the corresponding cell-type.
+Below, the significant regressions form step 2. The marker (last column) is the gene most significantly overexpressed in the corresponding cell (column two), differentiating it from the other neurons from the same anatomical region. It helps identify the function of the corresponding cell type.
 
 | Dataset               | Cell-type     | Link       | Region    | Marker | 
 | :----------------------- | :--------- | :---------- | :---------- | :--------------- | 
@@ -187,7 +185,7 @@ Below, the significant regressions form step 2. The marker (last column) is the 
 
 #### Human brain
 
-The results of cell-type analysis for Siletti (all regions) and Seeker (White Matter) layer 2 (L2) scRNAseq datasets, step1 and step3, are summarized in Figure 4. There is a positive regression with excitatory neurons of the white matter in both young and old human brain.
+The results of cell-type analysis for Siletti (all regions) and Seeker (White Matter) layer 2 (L2) scRNAseq datasets, step one and step three, are summarized in Figure 4. There is a positive regression with excitatory neurons of the white matter in both the young and old human brain.
 
 ![Immagine 2025-12-19 174755](https://github.com/user-attachments/assets/1ebe904c-2aac-45bf-93fd-ca5f451912fe)
 
