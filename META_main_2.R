@@ -1,4 +1,4 @@
-# file name: META_main_2
+# file name: META_main
 #
 #-------------------------------------------------------------------------------
 # This script performs GWAS meta analysis for CFS using DecodeME (15579 EUR), 
@@ -69,8 +69,8 @@ mydata<-mydata[mydata$A1FREQ>=MAFco_uc,]
 # Specify effect allele: in format_sumstats A1 is the non-effect allele, A2 is the effect allele,
 # FRQ is the frequency of the effect allele 
 # (https://www.bioconductor.org/packages/devel/bioc/vignettes/MungeSumstats/inst/doc/MungeSumstats.html).
-# In DecodeME ALLELE0	Non effect alleles (reference), ALLELE1	Effect alleles (alternate),
-# A1FREQ	Effect allele frequencies (from DecodeME readme)
+# In DecodeME, ALLELE0	Non effect alleles (reference), ALLELE1	Effect alleles (alternate),
+# A1FREQ is	Effect allele frequency (from DecodeME readme)
 #
 for (j in 1:ncol(mydata)) {
   if (colnames(mydata)[j]=="ALLELE0") colnames(mydata)[j]<-"other_allele"
@@ -85,8 +85,11 @@ munge_path<-"Munged/DME_GRCh38.tsv.gz"
 if (!file.exists(munge_path)) {
   format_sumstats(mydata,ref_genome="GRCh38",
                   compute_z="BETA",
-                  bi_allelic_filter=F,
-                  save_path=munge_path)  
+                  save_path=munge_path, # where to save the sumstat
+                  bi_allelic_filter=F, # keep non-biallelic SNPs
+                  flip_frq_as_biallelic=T, # keep non-biallelic SNPs even when they need flipping 
+                  log_mungesumstats_msgs=T, # keep a log of all the messages and warnings
+                  log_folder="Munged") # were to save the log
 } 
 #
 # Check for errors
@@ -106,7 +109,24 @@ while(test<30) {
     stop("Munging generated an error!")
   }
 }
-remove(mydata,mymunged)
+remove(mymunged,mydata)
+#
+# Lift over to GRCh37 
+#
+mydata<-fread(munge_path)
+munge_path<-"Munged/DME_GRCh37.tsv.gz"
+#
+if (!file.exists(munge_path)) {
+  format_sumstats(mydata,
+                  ref_genome="GRCh38",
+                  convert_ref_genome="GRCh37",
+                  save_path=munge_path, # where to save the sumstat
+                  bi_allelic_filter=F, # keep non-biallelic SNPs
+                  flip_frq_as_biallelic=T, # keep non-biallelic SNPs even when they need flipping 
+                  log_mungesumstats_msgs=T, # keep a log of all the messages and warnings
+                  log_folder="Munged") # were to save the log
+} 
+remove(mydata)
 gc() # free unused memory
 #
 #-------------------------------------------------------------------------------
@@ -134,7 +154,7 @@ mydata<-mydata[,-"control_af"]
 mydata<-mydata[,-"r2"]
 mydata<-mydata[,-"q_pval"]
 #
-# Filter by MAF
+# Filter by MAF, remove uncommon SNPs
 #
 mydata<-mydata[mydata$effect_allele_frequency<=1-MAFco_uc,]
 mydata<-mydata[mydata$effect_allele_frequency>=MAFco_uc,]
@@ -143,7 +163,7 @@ mydata<-mydata[mydata$effect_allele_frequency>=MAFco_uc,]
 #
 mydata[,beta:=log(odds_ratio)]
 #
-# Calculate standard error
+# Calculate standard error of beta
 #
 mydata[,standard_error:=(log(ci_upper)-log(ci_lower))/(2*1.96)]
 #
@@ -168,9 +188,11 @@ munge_path<-"Munged/MVP_GRCh38.tsv.gz"
 if (!file.exists(munge_path)) {
   format_sumstats(mydata,ref_genome="GRCh38",
                   compute_z="BETA",
-                  bi_allelic_filter=F,
-                  flip_frq_as_biallelic=T,
-                  save_path=munge_path)  
+                  save_path=munge_path,
+                  bi_allelic_filter=F, # keep non-biallelic SNPs
+                  flip_frq_as_biallelic=T, # keep non-biallelic SNPs even when they need flipping 
+                  log_mungesumstats_msgs=T, # keep a log of all the messages and warnings
+                  log_folder="Munged") # were to save the log  
 }
 #
 # Check for errors
@@ -191,6 +213,23 @@ while(test<30) {
   }
 }
 remove(mydata,mymunged)
+#
+# Lift over to GRCh37 
+#
+mydata<-fread(munge_path)
+munge_path<-"Munged/MVP_GRCh37.tsv.gz"
+#
+if (!file.exists(munge_path)) {
+  format_sumstats(mydata,
+                  ref_genome="GRCh38",
+                  convert_ref_genome="GRCh37",
+                  save_path=munge_path, # where to save the sumstat
+                  bi_allelic_filter=F, # keep non-biallelic SNPs
+                  flip_frq_as_biallelic=T, # keep non-biallelic SNPs even when they need flipping 
+                  log_mungesumstats_msgs=T, # keep a log of all the messages and warnings
+                  log_folder="Munged") # were to save the log
+} 
+remove(mydata)
 gc() # free unused memory
 #
 #-------------------------------------------------------------------------------
@@ -747,4 +786,3 @@ file_name<-paste0(current_dir,"/Output/GWAS_METAL_",
 pdf(file_name,width=20,height=20)
 wrap_plots(plots,ncol=3)
 dev.off()
-
