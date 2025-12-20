@@ -163,7 +163,7 @@ MAGMA-proprietary tissue analysis, based on a linear regression between zeta sco
 
 #### Mouse Brain
 
-The results of cell-type analysis for DropViz layer 2 (L2) scRNAseq datasets, from step one to step three, are summarized in Figure 3. In step one (top-left), all the significant regressions are reported, after correction for multiple comparisons. In step two (center), the independent signals for each dataset are selected. In step three (bottom right), independence across datasets is detected: stars indicate the collinear covariates of the regression model, while the element of row i and column j indicates the PS of cell type j conditioning on cell type i.  
+The results of cell-type analysis for DropViz level 2 (L2) scRNAseq datasets, from step one to step three, are summarized in Figure 3. In step one (top-left), all the significant regressions are reported, after correction for multiple comparisons. In step two (center), the independent signals for each dataset are selected. In step three (bottom right), independence across datasets is detected: stars indicate the collinear covariates of the regression model, while the element of row i and column j indicates the PS of cell type j conditioning on cell type i.  
 
 ![step1_3_FUMA_celltype687746](https://github.com/user-attachments/assets/987a590d-a8c1-448e-8383-2f08461cfb79)
 
@@ -187,7 +187,7 @@ While Slc17a6, Slc17a7, and Cbln1 identify mainly excitatory neurons, Gad1 is a 
 
 #### Human brain
 
-The results of cell-type analysis for Siletti (all regions) and Seeker (White Matter) layer 2 (L2) scRNAseq datasets, step one and step three, are summarized in Figure 4. There is a positive regression with excitatory neurons of the white matter in both the young and old human brain.
+The results of cell-type analysis for Siletti (all regions) and Seeker (White Matter) level 2 (L2) scRNAseq datasets, step one and step three, are summarized in Figure 4. There is a positive regression with excitatory neurons of the white matter in both the young and old human brain.
 
 ![Immagine 2025-12-19 174755](https://github.com/user-attachments/assets/1ebe904c-2aac-45bf-93fd-ca5f451912fe)
 
