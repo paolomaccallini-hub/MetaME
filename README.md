@@ -110,7 +110,7 @@ The results of the meta-analysis described in this repository are collected in a
 
 ### Risk loci and candidate genes
 
-The SNP2GENE module of FUMA identifies three risk loci, reported below. You can explore and download the results of the analysis of FUMA on my meta-GWAS at this link: [meta-GWAS analysis](https://fuma.ctglab.nl/browse/686988).
+The SNP2GENE module of FUMA identifies three risk loci, reported below (GRCh37). You can explore and download the results of the analysis of FUMA on my meta-GWAS at this link: [meta-GWAS analysis](https://fuma.ctglab.nl/browse/686988).
 
 | Genomic Locus | uniqID              | rsID       | chr | pos       | P          | start     | end       | nSNPs | nGWASSNPs | nIndSigSNPs | IndSigSNPs                          | nLeadSNPs | LeadSNPs |
 |---------------|---------------------|------------|-----|-----------|------------|-----------|-----------|-------|------------|--------------|--------------------------------------|------------|----------|
