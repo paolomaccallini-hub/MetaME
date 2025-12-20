@@ -75,7 +75,7 @@ $$
 SE=\frac{1}{\sqrt{{0.5N(1-FRQ)FRQ}}}
 $$
 
-where N is the total effective size, after correction for overlapping samples. After that, the pipeline calculates BETA using the well-known relation between BETA, Z, and SE: $\ BETA=SE \cdot Z$. After that, the output from METAL is munged by MungeSumstats (as described before), and the summary statistics of the meta-GWAS is generated with respect to both GRCh37 and GRCh38. A comparison between the Z scores across the input GWAS is plotted as a PDF for the nine SNPs with the lowest p-value (see below, and see among the files of this repository). 
+where N is the total effective size, after correction for overlapping samples. After that, the pipeline calculates BETA using the well-known relation between BETA, Z, and SE: $\ BETA=SE \cdot Z$. After that, the output from METAL is munged by MungeSumstats (as described before), and the summary statistics of the meta-GWAS is generated with respect to both GRCh37 and GRCh38. A comparison between the Z scores across the input GWAS is plotted as a PDF for the nine SNPs with the lowest p-value (see below, and see among the files of this repository). I wrote an introduction about GWAS meta-analysis ([Maccallini 2025](https://www.academia.edu/144576677/Weighted_Z_method_for_meta_analysis_of_genome_wide_association_studies)). 
 
 ![GWAS_METAL_DME_MVP_UKBEIB_GRCh38](https://github.com/user-attachments/assets/1ee43b75-cdc0-4ad3-ad30-c3721ffc0f00)
 
