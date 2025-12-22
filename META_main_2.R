@@ -711,7 +711,8 @@ remove(mydata)
 for (i in 1:length(populations)) {
   file_name_gz<-paste0(current_dir,"/Munged/",populations[i],"_GRCh38.tsv.gz")
   mydata<-fread(file_name_gz)
-  mybest[[1+i]]<-mydata[SNP%in%mybest[[1]]$SNP]
+  df<-mybest[[1]][,c("SNP","CHR","BP","A1","A2")]
+  mybest[[1+i]]<-merge(mydata,df,by=c("SNP","CHR","BP","A1","A2"),all.x=F)
   mybest[[1+i]]<-mybest[[1+i]][mybest[[1]]$SNP,on="SNP"] # ask for the same order in SNPs
   mybest[[1+i]][, Neff := 4 / ((1 / N_CAS) + (1 / N_CON))]
   names(mybest)[1+i]<-populations[i]
@@ -724,7 +725,7 @@ plots<-list()
 for (i in 1:n.best) {
   Zeta<-data.frame(name=names(mybest),Z=rep(NA,length(mybest)),
                    FRQ=rep(NA,length(mybest)),
-                   Neff=rep(NA,length(mybest)))
+                   Neff=rep(NA,length(mybest)),P=rep(NA,length(mybest)))
   for (j in 1:length(mybest)) {
     Zeta$Z[j]<-mybest[[j]]$Z[i]
     Zeta$FRQ[j]<-mybest[[j]]$FRQ[i]
@@ -733,18 +734,18 @@ for (i in 1:n.best) {
     } else {
       Zeta$Neff[j]<-round(mybest[[j]]$Neff[i])
     }
+    Zeta$P[j]<-mybest[[j]]$P[i]
   }
   Zeta$name<-factor(Zeta$name,levels=unique(Zeta$name))
   #
   # prepare the ID of the variant with hg38 coordinates and RSID 
   #
-  variant<-paste0(c(mybest[[2]]$CHR[i],mybest[[2]]$BP[i],mybest[[2]]$A1[i],
-                  mybest[[2]]$A2[i]),collapse=":")
-  variant<-paste0(variant," (",mybest[[2]]$SNP[i],")")
+  variant<-paste0(c(mybest[[1]]$CHR[i],mybest[[1]]$BP[i],mybest[[1]]$A1[i],
+                  mybest[[1]]$A2[i]),collapse=":")
+  variant<-paste0(variant," (",mybest[[1]]$SNP[i],") P = ",Zeta$P[1])
   #
   # build plot 
   #
-  
   plots[[i]]<-ggplot(Zeta,aes(x=name,y=Z)) +
     geom_hline(yintercept=0,linetype="dashed",colour="black",lwd=0.8) +
     geom_segment(aes(x=name,xend=name,y=0,yend=Z)) +
@@ -786,3 +787,4 @@ file_name<-paste0(current_dir,"/Output/GWAS_METAL_",
 pdf(file_name,width=20,height=20)
 wrap_plots(plots,ncol=3)
 dev.off()
+
