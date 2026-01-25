@@ -197,6 +197,25 @@ The results of cell-type analysis for Siletti (all regions) and Seeker (White Ma
   <em>Figure 4. Results of cell-type analysis, using the Siletti (all regions) and Seeker (White matter) scRNA-seq datasets for the human brain. Top-left: all the significant regressions, after correction for multiple comparisons. Bottom-right: collinear covariates are indicated by a star in the bottom right. No collinearity detected. </em>
 </p>
 
+## Discussion
+
+The present meta-GWAS on more than 21,500 ME/CFS cases shows a genetic profile that points to the brain, in particular to glutamatergic neurons and glutamatergic synapses. An increase in glutamatergic signalling would cause excitotoxicity, which is associated with neuronal death. I think this is not documented in ME/CFS and should be ruled out. 
+Another possibility is that ME/CFS results from a reduction in glutamatergic signalling, as suggested by the following lines of evidence. A recent study on long COVID found an increased density of AMPA receptors ([Fujimoto Y et al. 2025](https://pubmed.ncbi.nlm.nih.gov/41036177/)), which may be an adaptation to reduced glutamatergic signalling. In a survey on 150 ME/CFS patients, 66% reported being less able to tolerate alcohol compared to their pre-illness state ([Lily C et al. 2019](https://www.frontiersin.org/journals/pediatrics/articles/10.3389/fped.2019.00012/full)). This could be explained by the inhibitory effect of alcohol on NMDA receptors: under the hypothesis of deficient glutamatergic transmission, alcohol would be expected to exacerbate the disease. One of the few Mendelian ME/CFS cases reported so far involves a woman carrying a structural variant that leads to increased levels of GABAergic neurosteroids ([Oakley J](https://pubmed.ncbi.nlm.nih.gov/37978513/)). Increased GABAergic tone may induce symptoms similar to reduced glutamatergic tone, given the interplay between the two systems. A GWAS on 1200 females with self-reported ME/CFS from the UK Biobank pointed to rs2017696 (see ([this table](https://github.com/paolomaccallini-hub/UKBB/blob/main/My_genes_UKBB.csv))). This variant is associated with altered expression of SLC25A15 (ornithine transporter type I) in several tissues, the brain included. In particular, cases are associated with the reference allele, which is associated with reduced expression of SLC25A15 in the caudate, cingulate cortex, and other brain regions (see Figure 5). What happens if ornithine cannot enter the mitochondria in the brain? There is a local accumulation of ammonia, and the only way to remove it is to consume glutamate. Therefore, the available glutamate for neurotransmission is used for ammonia detoxification, and glutamatergic signalling is weakened. This may be one of dozens of possible mechanisms that lead to glutamatergic deficit. 
+
+If the glutamatergic hypothesis of chronic fatigue holds, there are several viable therapies, and a good fraction of patients may respond to one of them. This is a list of possible drugs.
+
+| Drug               | Mechanism       | DrugBank                                     | 
+| :----------------- | :-------------- | :------------------------------------------- |
+| D-serine           | NMDA co-agonist | ([R](https://go.drugbank.com/drugs/DB03929)) |
+| Aniracetam         | AMPA positive allosteric modulator | ([R](https://go.drugbank.com/drugs/DB04599)) |
+| Sarcosine          | Glycine reuptake inhibitor | ([R](https://go.drugbank.com/drugs/DB12519)) |
+
+<img width="926" height="347" alt="image" src="https://github.com/user-attachments/assets/655fea9f-4170-42c2-aa31-052000ca6c38" />
+
+<p align="left">
+  <em>Figure 5. Differential expression of SLC25A15 in three brain regions associated with rs2017696, according to the GTEx portal. </em>
+</p>
+
 ## About the pipeline
 
 ### Repository components
