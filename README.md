@@ -204,9 +204,9 @@ If the glutamatergic hypothesis of chronic fatigue holds, there are several viab
 
 | Drug               | Mechanism       | DrugBank                                     | 
 | :----------------- | :-------------- | :------------------------------------------- |
-| D-serine           | NMDA co-agonist | ([R](https://go.drugbank.com/drugs/DB03929)) |
-| Aniracetam         | AMPA positive allosteric modulator | ([R](https://go.drugbank.com/drugs/DB04599)) |
-| Sarcosine          | Glycine reuptake inhibitor | ([R](https://go.drugbank.com/drugs/DB12519)) |
+| D-serine           | NMDA co-agonist | ([DB03929](https://go.drugbank.com/drugs/DB03929)) |
+| Aniracetam         | AMPA positive allosteric modulator | ([DB04599](https://go.drugbank.com/drugs/DB04599)) |
+| Sarcosine          | Glycine reuptake inhibitor | ([DB12519](https://go.drugbank.com/drugs/DB12519)) |
 
 <img width="926" height="347" alt="image" src="https://github.com/user-attachments/assets/655fea9f-4170-42c2-aa31-052000ca6c38" />
 
