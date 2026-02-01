@@ -209,7 +209,7 @@ If the glutamatergic hypothesis of ME/CFS holds, there are several viable therap
 | D-serine           | NMDA co-agonist | ([DB03929](https://go.drugbank.com/drugs/DB03929)) |
 | Aniracetam         | AMPA positive allosteric modulator | ([DB04599](https://go.drugbank.com/drugs/DB04599)) |
 | Sarcosine          | Glycine reuptake inhibitor | ([DB12519](https://go.drugbank.com/drugs/DB12519)) |
-| Ketamine           | NMDA antagonost | ([DB01221](https://go.drugbank.com/drugs/DB01221)) |
+| Ketamine           | NMDA antagonist | ([DB01221](https://go.drugbank.com/drugs/DB01221)) |
 |Esketamine          | NMDA antagonist | ([DB11823](https://go.drugbank.com/drugs/DB11823)) |
 
 <img width="926" height="347" alt="image" src="https://github.com/user-attachments/assets/655fea9f-4170-42c2-aa31-052000ca6c38" />
