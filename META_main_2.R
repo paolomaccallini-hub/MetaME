@@ -560,6 +560,14 @@ writeLines(lines,"metal_script.txt")
 # Run METAL
 #-------------------------------------------------------------------------------
 #
+# Add output folder
+#
+current_dir<-getwd()
+folder_path<-file.path(current_dir,"Output")  
+if(!dir.exists(folder_path)) {
+  dir.create(folder_path) 
+}
+#
 # Extract files, if they are zipped, and add Neff for METAL
 #
 for (i in 1:length(populations)) {
@@ -576,7 +584,9 @@ for (i in 1:length(populations)) {
 #
 # Run Metal
 #
-command<-paste("wsl",metal_path,"/mnt/c/Users/macpa/OneDrive/Appunti/Genetics/MetaGWAS/metal_script.txt")
+current_dir<-getwd()
+current_dir<-gsub(pattern="C:",replacement="/mnt/c",current_dir)
+command<-paste("wsl",metal_path,current_dir,"/metal_script.txt")
 time.start<-as.numeric(Sys.time())
 output<-system(command,wait=T,intern=T) # Run Exomiser
 time.end<-as.numeric(Sys.time())
