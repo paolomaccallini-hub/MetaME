@@ -89,7 +89,7 @@ The formula used for the approximation of the standard error comes from EQ. A.3 
 
 $$\eta \approx 2N \cdot f(1-f) \cdot \phi(1-\phi) \cdot \beta^2$$
 
-Here, $N$ is total sample size, $f$ is allele frequency, $\phi = S/N$ is the proportion of cases, and $\beta$ is the additive effect. Since the Wald statistic follows a $\chi^2_1$ distribution with noncentrality parameter $\eta = \beta^2 / \text{var}(\hat\beta)$, the 
+Here, $N$ is total sample size, $f$ is allele frequency, $\phi = N_{CAS}/N$ is the proportion of cases, and $\beta$ is the additive effect. Since the Wald statistic follows a $\chi^2_1$ distribution with noncentrality parameter $\eta = \beta^2 / \text{var}(\hat\beta)$, the 
 asymptotic variance of $\hat\beta$ is:
 
 $$\text{var}(\hat\beta) = \frac{1}{2N \cdot f(1-f) \cdot \phi(1-\phi)}$$
