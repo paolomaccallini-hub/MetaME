@@ -85,7 +85,7 @@ where N is the total effective size, after correction for overlapping samples. A
 
 ## Derivation of SE from Vukcevic et al. (2011)
 
-The formula used for the approximation of the standard error comes from EQ. A.3 of ([Vukcevic D, 2011])(https://onlinelibrary.wiley.com/doi/full/10.1002/gepi.20576), where the noncentrality parameter of the Wald trend test is:
+The formula used for the approximation of the standard error comes from EQ. A.3 of ([Vukcevic D, 2011](https://onlinelibrary.wiley.com/doi/full/10.1002/gepi.20576)), where the noncentrality parameter of the Wald trend test is:
 
 $$\eta \approx 2N \cdot f(1-f) \cdot \phi(1-\phi) \cdot \beta^2$$
 
@@ -94,18 +94,13 @@ asymptotic variance of $\hat\beta$ is:
 
 $$\text{var}(\hat\beta) = \frac{1}{2N \cdot f(1-f) \cdot \phi(1-\phi)}$$
 
-Substituting $\phi(1-\phi) = \frac{n_1}{N}\frac{n_2}{N} = \frac{n_1 n_2}{N^2}$:
+Substituting $\phi(1-\phi) = \frac{N_CAS}{N}\frac{N_CON}{N} = \frac{N_CAS N_CON}{N^2}$:
 
 $$\text{var}(\hat\beta) = \frac{N}{2 \cdot f(1-f) \cdot n_1 n_2}$$
 
-which gives:
-
-$$SE = \frac{1}{\sqrt{2 \cdot f(1-f) \cdot N_{eff}^P}}, 
-\quad N_{eff}^P = \frac{n_1 n_2}{N}$$
-
 In this pipeline $N_{eff}$ is defined as the harmonic mean of cases and controls scaled by 4:
 
-$$N_{eff} = \frac{4}{\frac{1}{n_1} + \frac{1}{n_2}} = \frac{4 n_1 n_2}{N} = 4 N_{eff}^P$$
+$$N_{eff} = \frac{4}{\frac{1}{N_CAS} + \frac{1}{N_CON}} = \frac{4 N_CAS N_CON}{N} = 4 \frac{N}{N_CAS N_CON}$$
 
 Substituting:
 
