@@ -1,0 +1,11 @@
+filters:
+  maf_uncommon: 0.01
+  info_cutoff: 0.9
+
+samples: 
+  DME: 1    # DecodeME (15579 EUR cases)
+  MVP: 1    # Million Veteran Project (3891 EUR cases)
+  UKBEIB: 1 # UK Biobank by European Bioinformatics Institute (2092 EUR cases) 
+
+METAL: 
+  path_metal_exe: "/mnt/c/Users/macpa/generic-metal/build/bin/metal" # we use metal in WSL2
