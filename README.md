@@ -135,7 +135,7 @@ Functional mapping and annotation of the meta-analysis results was performed usi
 | MAGMA | Enabled, 0 kb window |
 | MAGMA expression | GTEx v8 tissue-specific and general avg log2TPM |
 
-The full FUMA parameter file is available in the `FUMA/` folder (`params.config`).
+The full FUMA parameter file is available in [params.config](FUMA/params.config).
 
 ---
 
