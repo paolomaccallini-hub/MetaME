@@ -117,11 +117,11 @@ Effect sizes (BETA) and standard errors (SE) in the output are reconstructed fro
 
 ## Environment
 
-Developed and tested on:
-Windows 10 (build 10.0.26200.8037)
+Windows 11 24H2 (build 10.0.26200.8037)
 RStudio 2026.1.1.403
 R 4.4.1 (2024-06-14 ucrt)
 WSL2 2.3.24.0, kernel 5.15.153.1-2, Ubuntu 24.04.3 LTS
+
 ---
 
 ## License
