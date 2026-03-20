@@ -44,7 +44,7 @@ install.packages(c("httr", "R.utils", "data.table", "yaml", "ggplot2", "patchwor
 The pipeline uses METAL for meta-analysis, called via WSL from RStudio on Windows.
 
 1. Download the METAL source from the [2020-05-05 release](https://github.com/statgen/METAL/releases/tag/2020-05-05)
-2. Compile within WSL2:
+2. Compile within WSL:
    ```bash
    mkdir build && cd build
    cmake -DCMAKE_BUILD_TYPE=Release ..
