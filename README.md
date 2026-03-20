@@ -111,19 +111,19 @@ Key output files:
 | `Output/GWAS_METAL_DME_MVP_UKBEIB_GRCh37.tsv.gz` | Meta-analysis summary statistics, GRCh37 (recommended for web-FUMA) |
 | `Output/GWAS_METAL_DME_MVP_UKBEIB_GRCh38.pdf` | Z-score plots for top associations |
 
-Effect sizes (BETA) and standard errors (SE) in the output are reconstructed from METAL Z-scores using the formula of Vukcevic et al. (2011, *Genetic Epidemiology*). Z-scores and p-values are exact as computed by METAL.
+Effect sizes (BETA) and standard errors (SE) in the output are reconstructed from METAL Z-scores using the formula of ([Vukcevic D, 2011](https://onlinelibrary.wiley.com/doi/full/10.1002/gepi.20576)). Z-scores and p-values are exact as computed by METAL.
 
 ---
 
 ## Environment
 
 Developed and tested on:
-- Windows 11, RStudio 2023
-- WSL2 (Ubuntu 24.04) for METAL execution
-- R 4.3
-
+Windows 10 (build 10.0.26200.8037)
+RStudio 2026.1.1.403
+R 4.4.1 (2024-06-14 ucrt)
+WSL2 2.3.24.0, kernel 5.15.153.1-2, Ubuntu 24.04.3 LTS
 ---
 
 ## License
 
-[to be added]
+This project is licensed under the MIT License — see [LICENSE](LICENSE) for details.
