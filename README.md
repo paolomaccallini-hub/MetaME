@@ -53,24 +53,24 @@ The pipeline creates three directories at runtime:
 
 `Meta_analyses.csv` is a binary indicator matrix whose rows define named meta-analyses and whose columns are cohort flags. The pipeline iterates over every row and runs a full meta-analysis for each. The 16 pre-defined meta-analyses are:
 
-| Meta-analysis | Cohorts included |
-|---------------|-----------------|
-| DME_1_MVP | DME_1, MVP |
-| DME_2_MVP | DME_2, MVP |
-| DME_1_MVP_FG | DME_1, MVP, FG |
-| DME_1_infectious_onset_LC | DME_1_infectious_onset, LC |
-| DME_1_MVP_LC | DME_1, MVP, LC |
-| DME_1_male_MVP | DME_1_male, MVP |
-| DME_2_UKBNL_both_sexes_MVP | DME_2, UKBNL_both_sexes, MVP |
-| DME_1_female_UKBNL_male_MVP | DME_1_female, UKBNL_male, MVP |
-| DME_1_female_UKBNL_male_FG | DME_1_female, UKBNL_male, FG |
-| DME_1_female_UKBNL_male | DME_1_female, UKBNL_male |
-| DME_1_male_UKBNL_female_MVP | DME_1_male, UKBNL_female, MVP |
-| DME_1_male_UKBNL_female | DME_1_male, UKBNL_female |
-| UKBEIB_MVP | UKBEIB, MVP |
-| UKBNL_both_sexes_MVP | UKBNL_both_sexes, MVP |
-| UKBNL_both_sexes_MVP_FG | UKBNL_both_sexes, MVP, FG |
-| MVP_LC | MVP, LC |
+| Meta-analysis | Cohorts included | Overlapping Controls |
+|---------------|-----------------|--------------------|
+| DME_1_MVP | DME_1, MVP | NO |
+| DME_2_MVP | DME_2, MVP | NO |
+| DME_1_MVP_FG | DME_1, MVP, FG | NO |
+| DME_1_infectious_onset_LC | DME_1_infectious_onset, LC | YES |
+| DME_1_MVP_LC | DME_1, MVP, LC | YES |
+| DME_1_male_MVP | DME_1_male, MVP | NO |
+| DME_2_UKBNL_both_sexes_MVP | DME_2, UKBNL_both_sexes, MVP | YES |
+| DME_1_female_UKBNL_male_MVP | DME_1_female, UKBNL_male, MVP | NO |
+| DME_1_female_UKBNL_male_FG | DME_1_female, UKBNL_male, FG | NO |
+| DME_1_female_UKBNL_male | DME_1_female, UKBNL_male | NO |
+| DME_1_male_UKBNL_female_MVP | DME_1_male, UKBNL_female, MVP | NO |
+| DME_1_male_UKBNL_female | DME_1_male, UKBNL_female | NO |
+| UKBEIB_MVP | UKBEIB, MVP | NO |
+| UKBNL_both_sexes_MVP | UKBNL_both_sexes, MVP | NO |
+| UKBNL_both_sexes_MVP_FG | UKBNL_both_sexes, MVP, FG | NO |
+| MVP_LC | MVP, LC | NO |
 
 The primary meta-analysis for the ME/CFS study is **DME_1_MVP**.
 
