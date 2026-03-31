@@ -28,25 +28,22 @@ The pipeline creates three directories at runtime:
 
 ## Cohorts
 
-| Cohort | N_cases | N_controls | N_total | Neff | Ancestry | Regression | Source |
-|--------|--------:|----------:|--------:|------:|----------|------------|--------|
-| DME_1 | 15,579 | 259,909 | 275,488 | 58,792 | EUR | Logistic (REGENIE) | [DecodeME preprint](https://www.research.ed.ac.uk/en/publications/initial-findings-from-the-decodeme-genome-wide-association-study-/) |
-| DME_2 | 15,579 | 155,790 | 171,369 | 56,651 | EUR | Logistic (REGENIE) | DecodeME |
-| DME_1_female | 12,833 | 218,949 | 231,782 | 48,490 | EUR | Logistic (REGENIE) | DecodeME |
-| DME_1_male | 2,746 | 40,960 | 43,706 | 10,294 | EUR | Logistic (REGENIE) | DecodeME |
-| DME_1_infectious_onset | 9,738 | 259,909 | 269,647 | 37,545 | EUR | Logistic (REGENIE) | DecodeME |
-| MVP | 3,891 | 439,202 | 443,093 | 15,427 | EUR | Logistic Mixed (SAIGE) | [GWAS Catalog GCST90479178](https://www.ebi.ac.uk/gwas/studies/GCST90479178) |
-| UKBEIB | 2,092 | 482,506 | 484,598 | 8,332 | EUR | Linear (BOLT-LMM) | [GWAS Catalog GCST90038694](https://www.ebi.ac.uk/gwas/studies/GCST90038694) |
-| UKBNL_both_sexes | 1,659 | 359,482 | 361,141 | 6,606 | EUR | Linear | [Neale Lab UKB round 2](https://pmc.ncbi.nlm.nih.gov/articles/PMC9777867) |
-| UKBNL_female | 1,208 | 192,945 | 194,153 | 4,802 | EUR | Linear | Neale Lab UKB round 2 |
-| UKBNL_male | 451 | 166,537 | 166,988 | 1,799 | EUR | Linear | Neale Lab UKB round 2 |
-| FG | 283 | 463,029 | 463,312 | 1,131 | FIN | Logistic | [FinnGen R12 G6_POSTVIRFAT](https://pubmed.ncbi.nlm.nih.gov/36653562/) |
-| LC | 6,450 | 1,093,995 | 1,100,445 | 25,649 | EUR | Logistic | [Long COVID GWAS GCST90454541](https://air.unimi.it/handle/2434/1172544) |
+| Database | Symbol | Cases | Controls | Trait | Regression | Ancestry | Assembly | Reference | Summary Statistics |
+| :------- | :----- | -----:| --------:| :---- | :--------- | :------- | :------- | :-------- | :----------------- |
+| **DecodeME** | DME_1 | 15,579 | 259,909 | CFS (CCC/IOM) | Logistic | EUR | GRCh38 | [Preprint_2025](https://www.research.ed.ac.uk/en/publications/initial-findings-from-the-decodeme-genome-wide-association-study-) | [GWAS-1](https://osf.io/rgqs3/files) |
+| **DecodeME** | DME_2 | 15,579 | 155,790 | CFS (CCC/IOM) | Logistic | EUR | GRCh38 | [Preprint_2025](https://www.research.ed.ac.uk/en/publications/initial-findings-from-the-decodeme-genome-wide-association-study-) | [GWAS-2](https://osf.io/rgqs3/files) |
+| **DecodeME** | DME_1_female | 12,833 | 218,949 | CFS (CCC/IOM) — female | Logistic | EUR | GRCh38 | [Preprint_2025](https://www.research.ed.ac.uk/en/publications/initial-findings-from-the-decodeme-genome-wide-association-study-) | [GWAS-1 female](https://osf.io/rgqs3/files) |
+| **DecodeME** | DME_1_male | 2,746 | 40,960 | CFS (CCC/IOM) — male | Logistic | EUR | GRCh38 | [Preprint_2025](https://www.research.ed.ac.uk/en/publications/initial-findings-from-the-decodeme-genome-wide-association-study-) | [GWAS-1 male](https://osf.io/rgqs3/files) |
+| **DecodeME** | DME_1_infectious_onset | 9,738 | 259,909 | CFS — infectious onset | Logistic | EUR | GRCh38 | [Preprint_2025](https://www.research.ed.ac.uk/en/publications/initial-findings-from-the-decodeme-genome-wide-association-study-) | [GWAS-1 infectious](https://osf.io/rgqs3/files) |
+| **Million Veteran Program** | MVP | 3,891 | 439,202 | PheCode_798.1 CFS | Logistic (SAIGE) | EUR | GRCh38 | [Verma_2024](https://pubmed.ncbi.nlm.nih.gov/39024449/) | [GCST90479178](https://ftp.ebi.ac.uk/pub/databases/gwas/summary_statistics/GCST90479001-GCST90480000/GCST90479178/) |
+| **UK Biobank (Neale Lab)** | UKBNL_both_sexes | 1,659 | 359,482 | self-reported CFS | Linear | EUR | GRCh37 | [Neale Lab](https://www.nealelab.is/uk-biobank) | [20002_1482](https://docs.google.com/spreadsheets/d/1kvPoupSzsSFBNSztMzl04xMoSC3Kcx3CrjVf4yBmESU/edit?gid=178908679#gid=178908679) |
+| **UK Biobank (Neale Lab)** | UKBNL_female | 1,208 | 192,945 | self-reported CFS — female | Linear | EUR | GRCh37 | [Neale Lab](https://www.nealelab.is/uk-biobank) | [20002_1482 female](https://docs.google.com/spreadsheets/d/1kvPoupSzsSFBNSztMzl04xMoSC3Kcx3CrjVf4yBmESU/edit?gid=178908679#gid=178908679) |
+| **UK Biobank (Neale Lab)** | UKBNL_male | 451 | 166,537 | self-reported CFS — male | Linear | EUR | GRCh37 | [Neale Lab](https://www.nealelab.is/uk-biobank) | [20002_1482 male](https://docs.google.com/spreadsheets/d/1kvPoupSzsSFBNSztMzl04xMoSC3Kcx3CrjVf4yBmESU/edit?gid=178908679#gid=178908679) |
+| **UK Biobank (EIB)** | UKBEIB | 2,092 | 482,506 | self-reported CFS | Linear (BOLT-LMM) | EUR | GRCh37 | [Dönertaş_2021](https://europepmc.org/article/MED/33959723) | [GCST90038694](https://ftp.ebi.ac.uk/pub/databases/gwas/summary_statistics/GCST90038001-GCST90039000/GCST90038694) |
+| **FinnGen** | FG | 283 | 463,029 | Post-viral fatigue | Logistic | FIN | GRCh38 | [Kurki_2023](https://pubmed.ncbi.nlm.nih.gov/36653562/) | [R12_G6_POSTVIRFAT](https://www.finngen.fi/en/researchers/accessing) |
+| **Long COVID** | LC | 6,450 | 1,093,995 | Long COVID | Logistic | EUR | GRCh38 | [Pietzner_2024](https://air.unimi.it/handle/2434/1172544) | [GCST90454541](https://ftp.ebi.ac.uk/pub/databases/gwas/summary_statistics/GCST90454001-GCST90455000/GCST90454541/) |
 
-**DME = DecodeME; MVP = Million Veteran Program; UKBEIB = UK Biobank (EBI release); UKBNL = UK Biobank (Neale Lab release); FG = FinnGen; LC = Long COVID.**
-
-> **Note on sample overlap.** DecodeME and UK Biobank share controls drawn from the same population. Long COVID controls partially overlap with DecodeME, UK Biobank, and FinnGen. When cohorts with shared controls are combined, the pipeline automatically sets `OVERLAP ON` in the METAL script; sex-mismatched designs (e.g. DME female + UKB male) are treated as independent and receive no overlap correction.
-
+> **Note on sample overlap.** DecodeME and UK Biobank share controls drawn from the same population. Long COVID controls partially overlap with DecodeME, UK Biobank, and FinnGen. When cohorts with shared controls are combined, the pipeline automatically sets `OVERLAP ON` in the METAL script; sex-mismatched designs (e.g. DME_1_female + UKBNL_male) are treated as independent and receive no overlap correction.
 ---
 
 ## Meta-analyses
