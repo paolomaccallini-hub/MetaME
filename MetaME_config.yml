@@ -1,0 +1,7 @@
+filters:
+  maf_uncommon: 0.01
+  info_cutoff: 0.9
+  hwe_p_value: 1e-06
+
+METAL: 
+  path_metal_exe: "/mnt/c/Users/macpa/generic-metal/build/bin/metal" # we use metal in WSL

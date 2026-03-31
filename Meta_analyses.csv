@@ -1,0 +1,17 @@
+"meta_analysis","DME_1","DME_2","DME_1_male","DME_1_female","DME_1_infectious_onset","UKBEIB","UKBNL_both_sexes","UKBNL_female","UKBNL_male","MVP","FG","LC"
+"DME_1_MVP",1,0,0,0,0,0,0,0,0,1,0,0
+"DME_2_MVP",0,1,0,0,0,0,0,0,0,1,0,0
+"DME_1_MVP_FG",1,0,0,0,0,0,0,0,0,1,1,0
+"DME_1_infectious_onset_LC",0,0,0,0,1,0,0,0,0,0,0,1
+"DME_1_MVP_LC",1,0,0,0,0,0,0,0,0,1,0,1
+"DME_1_male_MVP",0,0,1,0,0,0,0,0,0,1,0,0
+"DME_2_UKBNL_both_sexes_MVP",0,1,0,0,0,0,1,0,0,1,0,0
+"DME_1_female_UKBNL_male_MVP",0,0,0,1,0,0,0,0,1,1,0,0
+"DME_1_female_UKBNL_male_FG",0,0,0,1,0,0,0,0,1,0,1,0
+"DME_1_female_UKBNL_male",0,0,0,1,0,0,0,0,1,0,0,0
+"DME_1_male_UKBNL_female_MVP",0,0,1,0,0,0,0,1,0,1,0,0
+"DME_1_male_UKBNL_female",0,0,1,0,0,0,0,1,0,0,0,0
+"UKBEIB_MVP",0,0,0,0,0,1,0,0,0,1,0,0
+"UKBNL_both_sexes_MVP",0,0,0,0,0,0,1,0,0,1,0,0
+"UKBNL_both_sexes_MVP_FG",0,0,0,0,0,0,1,0,0,1,1,0
+"MVP_LC",0,0,0,0,0,0,0,0,0,1,0,1
