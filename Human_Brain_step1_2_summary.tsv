@@ -1,3 +1,0 @@
-Dataset	Cell_type	NGENES	BETA	BETA_STD	SE	P	P.adj.pds	P.adj	cond_state	cond_cell_type	step3
-332_Seeker2023_WhiteMatter_Human_2023_BA4_Young_level2	glutamatergic_neuron	15238	0.036371	0.04893	0.0087714	1.6978e-05	0.00025467	0.036383854	single	NA	1
-333_Seeker2023_WhiteMatter_Human_2023_BA4_Old_level2	glutamatergic_neuron	15249	0.034902	0.047208	0.0085215	2.1156e-05	0.000296184	0.045337308	single	NA	1
