@@ -28,7 +28,7 @@ The pipeline creates three directories at runtime:
 
 ## Cohorts
 
-| Cohort | N cases | N controls | N total | N eff | Ancestry | Regression | Source |
+| Cohort | N_cases | N_controls | N_total | Neff | Ancestry | Regression | Source |
 |--------|--------:|----------:|--------:|------:|----------|------------|--------|
 | DME_1 | 15,579 | 259,909 | 275,488 | 58,792 | EUR | Logistic (REGENIE) | [DecodeME preprint](https://www.research.ed.ac.uk/en/publications/initial-findings-from-the-decodeme-genome-wide-association-study-/) |
 | DME_2 | 15,579 | 155,790 | 171,369 | 56,651 | EUR | Logistic (REGENIE) | DecodeME |
